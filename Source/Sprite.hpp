@@ -129,3 +129,52 @@ Final_Sprite* Make_Final_Sprite(Managed_Sprite* The_Managed_Sprite, GLuint The_T
 
 	return The_Final_Sprite;
 }
+
+// Draw a Final_Sprite*.
+
+void Draw_Sprite(Final_Sprite* The_Final_Sprite)
+{
+	// Enable alpha blending.
+
+	glEnable(GL_BLEND);
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	// Enable the sprite shader program.
+
+	glUseProgram(Sprite_Program);
+
+	// Bind the vertex array object to the current state.
+
+	glBindVertexArray(The_Final_Sprite->Sprite_VAO);
+
+	// Enable the final sprite's texture.
+
+	glBindTexture(GL_TEXTURE_2D, The_Final_Sprite->Sprite_Texture);
+
+	// Draw the vertex array object as an array of triangles.
+
+	glDrawArrays(GL_TRIANGLES, 0, The_Final_Sprite->Size_In_Vertices);
+
+	// Disable the final sprite's texture.
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	// Unbind the vertex array object from the current state.
+
+	glBindVertexArray(0);
+
+	// Disable the sprite shader program.
+
+	glUseProgram(0);
+
+	// Destroy the sprite (wait, maybe we will want to reuse a sprite, but whatever).
+
+	glDeleteVertexArrays(1, &The_Final_Sprite->Sprite_VAO);
+
+	glDeleteBuffers(1, &The_Final_Sprite->Sprite_VBO);
+
+	// Disable alpha blending.
+
+	glDisable(GL_BLEND);
+}
