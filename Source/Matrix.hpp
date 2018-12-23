@@ -56,3 +56,51 @@ mat4 Mat4_Projection(mat4 Out, float Field_Of_View, float Aspect_Ratio, float Z_
 
 	return Out;
 }
+
+// Set a matrix to a X rotation matrix.
+
+mat4 Mat4_Rotate_X(mat4 Out, float Radians)
+{
+	float Cos = cos(Radians);
+	float Sin = sin(Radians);
+
+	for (int i = 0; i < 16; i++)
+	{
+		Out[i] = 0.0f;
+	}
+
+	// Line 1.
+
+	Out[0] = 1.0f;
+	Out[1] = 0.0f;
+	Out[2] = 0.0f;
+	Out[3] = 0.0f;
+
+	// Line 2.
+
+	Out[4] = 0.0f;
+
+	Out[5] = Cos;
+	Out[6] = Sin;
+
+	Out[7] = 0.0f;
+
+	// Line 3.
+
+	Out[8] = 0.0f;
+
+	Out[9] = -Sin;
+
+	Out[10] = Cos;
+
+	Out[11] = 0.0f;
+
+	// Line 4.
+
+	Out[12] = 0.0f;
+	Out[13] = 0.0f;
+	Out[14] = 0.0f;
+	Out[15] = 1.0f;
+
+	return Out;
+}
