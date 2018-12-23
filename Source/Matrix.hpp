@@ -32,3 +32,27 @@ mat4 Mat4_Identity(mat4 Out)
 
 	return Out;
 }
+
+// Set a matrix to a projection matrix.
+
+mat4 Mat4_Projection(mat4 Out, float Field_Of_View, float Aspect_Ratio, float Z_Near, float Z_Far)
+{
+	for (int i = 0; i < 16; i++)
+	{
+		Out[i] = 0.0f;
+	}
+
+	float Tangent_Half_Field_Of_View = tan(Field_Of_View / 2.0f);
+
+	Out[0 * 4 + 0] = 1.0f / (Aspect_Ratio * Tangent_Half_Field_Of_View);
+
+	Out[1 * 4 + 1] = 1.0f / Tangent_Half_Field_Of_View;
+
+	Out[2 * 4 + 2] = -(Z_Far + Z_Near) / (Z_Far - Z_Near);
+
+	Out[2 * 4 + 3] = -1.0f;
+
+	Out[3 * 4 + 2] = -(2.0 * Z_Far * Z_Near) / (Z_Far - Z_Near);
+
+	return Out;
+}
