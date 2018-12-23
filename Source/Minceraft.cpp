@@ -93,3 +93,16 @@ unsigned long Main_Iteration = 0;
 int main(int argc, char** argv)
 {
 	// Initialize dimensions.
+
+	Main_X_Resolution = 950;
+	Main_Y_Resolution = 540;
+
+	// Initialize SDL.
+
+	if (SDL_Init(SDL_INIT_EVERYTHING))
+	{
+		std::cout << "Could not initialize SDL." << std::endl;
+
+		exit(1);
+	}
+
