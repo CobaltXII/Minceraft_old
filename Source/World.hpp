@@ -84,3 +84,10 @@ struct World
 		Voxels[X + X_Res * (Y + Y_Res * Z)] = Value;
 	}
 
+	// Check if a point is out of bounds.
+
+	inline bool Out_Of_Bounds(unsigned int X, unsigned int Y, unsigned int Z)
+	{
+		return X < 0 || Y < 0 || Z < 0 || X > X_Res - 1 || Y > Y_Res - 1 || Z > Z_Res - 1;
+	}
+};
