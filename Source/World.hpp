@@ -11,3 +11,11 @@ inline Block_ID Voxel_Type(Voxel Which)
 {
 	return Block_ID(Which & 0xFF);
 }
+
+// Get the skylight contribution of a voxel.
+
+inline unsigned char Voxel_Skylight(Voxel Which)
+{
+	return (Which >> 12); 
+}
+
