@@ -582,3 +582,97 @@ void Generate_World(World* Out, unsigned int Seed)
 		}
 	}
 
+	// Plant mushrooms.
+
+	for (int I = 0; I < Out->X_Res * Out->Z_Res / 1024; I++)
+	{
+		Mushroom:
+
+		int X = rand() % Out->X_Res;
+		int Z = rand() % Out->Z_Res;
+
+		for (float Y = 0; Y < Out->Y_Res; Y++)
+		{
+			if (Voxel_Type(Out->Get(int(X), int(Y), int(Z))) != id_air)
+			{
+				// Okay, found something that is not air.
+
+				if (Voxel_Type(Out->Get(int(X), int(Y), int(Z))) == id_grass)
+				{
+					// It's grass, we may plant a mushroom if there are enough blocks available 
+					// above the grass.
+
+					if (Out->Out_Of_Bounds(X, Y - 6, Z))
+					{
+						goto Mushroom;
+					}
+
+					if (rand() % 5 != 0)
+					{
+						// Red mushroom. This is the trunk.
+
+						Out->Set_Safe(X, Y - 1, Z, Make_Voxel(id_mushroom_stem));
+						Out->Set_Safe(X, Y - 2, Z, Make_Voxel(id_mushroom_stem));
+						Out->Set_Safe(X, Y - 3, Z, Make_Voxel(id_mushroom_stem));
+						Out->Set_Safe(X, Y - 4, Z, Make_Voxel(id_mushroom_stem));
+						Out->Set_Safe(X, Y - 5, Z, Make_Voxel(id_mushroom_stem));
+
+						// This is the square at the top.
+
+						for (int J = -1; J <= 1; J++)
+						{
+							for (int K = -1; K <= 1; K++)
+							{
+								Out->Set_Safe(X + J, Y - 6, Z + K, Make_Voxel(id_red_mushroom_block));
+							}
+						}
+
+						// This is the square on the left.
+
+						for (int J = -1; J <= 1; J++)
+						{
+							for (int K = -1; K <= 1; K++)
+							{
+								Out->Set_Safe(X - 2, Y - 4 + J, Z + K, Make_Voxel(id_red_mushroom_block));
+
+								Out->Set_Safe(X - 1, Y - 4 + J, Z + K, Make_Voxel(id_air));
+							}
+						}
+
+						// This is the square on the right.
+
+						for (int J = -1; J <= 1; J++)
+						{
+							for (int K = -1; K <= 1; K++)
+							{
+								Out->Set_Safe(X + 2, Y - 4 + J, Z + K, Make_Voxel(id_red_mushroom_block));
+
+								Out->Set_Safe(X + 1, Y - 4 + J, Z + K, Make_Voxel(id_air));
+							}
+						}
+
+						// This is the square on the front.
+
+						for (int J = -1; J <= 1; J++)
+						{
+							for (int K = -1; K <= 1; K++)
+							{
+								Out->Set_Safe(X + K, Y - 4 + J, Z - 2, Make_Voxel(id_red_mushroom_block));
+
+								Out->Set_Safe(X + K, Y - 4 + J, Z - 1, Make_Voxel(id_air));
+							}
+						}
+
+						// This is the square on the back.
+
+						for (int J = -1; J <= 1; J++)
+						{
+							for (int K = -1; K <= 1; K++)
+							{
+								Out->Set_Safe(X + K, Y - 4 + J, Z + 2, Make_Voxel(id_red_mushroom_block));
+
+								Out->Set_Safe(X + K, Y - 4 + J, Z + 1, Make_Voxel(id_air));
+							}
+						}
+					}
+					else
