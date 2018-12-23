@@ -4,3 +4,6 @@
 #include "Image.hpp"
 #include "Image.cpp"
 
+#include "Texture.hpp"
+#include "Texture.cpp"
+
