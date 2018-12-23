@@ -152,3 +152,13 @@ Crosshair* Make_Crosshair(int X_Res, int Y_Res)
 	return Out;
 }
 
+// Destroy a Crosshair.
+
+void Destroy_Crosshair(Crosshair* The_Crosshair)
+{
+	glDeleteVertexArrays(1, &The_Crosshair->VAO);
+
+	glDeleteBuffers(1, &The_Crosshair->VBO);
+
+	delete The_Crosshair;
+}
