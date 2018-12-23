@@ -91,3 +91,16 @@ struct World
 		return X < 0 || Y < 0 || Z < 0 || X > X_Res - 1 || Y > Y_Res - 1 || Z > Z_Res - 1;
 	}
 };
+
+// Tiny world.
+
+unsigned int Tiny_World_X_Res = 64;
+
+unsigned int Tiny_World_Y_Res = 32;
+
+unsigned int Tiny_World_Z_Res = 64;
+
+unsigned int Tiny_World_Voxels = Tiny_World_X_Res * Tiny_World_Y_Res * Tiny_World_Z_Res;
+
+unsigned int Tiny_World_Memory = sizeof(Voxel) * Tiny_World_Voxels;
+
