@@ -179,3 +179,25 @@ int main(int argc, char** argv)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
+	// Get the dimensions and aspect ratio of the OpenGL context.
+
+	SDL_GL_GetDrawableSize(Main_Window, &Context_X_Resolution, &Context_Y_Resolution);
+
+	Aspect_Ratio = float(Context_X_Resolution) / float(Context_Y_Resolution);
+
+	// Load the texture array that contains every block texture.
+
+	GLuint Block_Texture_Array = Generate_Block_Texture_Array();
+
+	Make_Block_Face_Info();
+
+	// Load the interface textures.
+
+	Generate_Interface_Textures();
+
+	// Generate sprite and isometric block preliminaries. Basically loads the sprite and isometric shaders.
+
+	Generate_Sprite_Preliminaries();
+
+	Generate_Isometric_Preliminaries();
+
