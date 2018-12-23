@@ -58,3 +58,35 @@ std::string Make_Minceraft_Version_String()
 	return String_Stream.str();
 }
 
+// Requested dimensions.
+
+int Main_X_Resolution;
+int Main_Y_Resolution;
+
+// Actual dimensions.
+
+int Context_X_Resolution;
+int Context_Y_Resolution;
+
+// Aspect ratio.
+
+float Aspect_Ratio = 1.0;
+
+// Mouse position.
+
+int Main_Mouse_X = 0;
+int Main_Mouse_Y = 0;
+
+// Mouse state.
+
+bool Main_Mouse_L = false;
+bool Main_Mouse_R = false;
+
+bool Main_Mouse_Relative = false;
+
+// Iteration counter.
+
+unsigned long Main_Iteration = 0;
+
+// Entry point.
+
