@@ -72,3 +72,15 @@ struct World
 		Voxels[X + X_Res * (Y + Y_Res * Z)] = Value;
 	}
 
+	// Set the value of a block in the world.
+
+	inline void Set_Safe(unsigned int X, unsigned int Y, unsigned int Z, Voxel Value)
+	{
+		if (X < 0 || Y < 0 || Z < 0 || X > X_Res - 1 || Y > Y_Res - 1 || Z > Z_Res - 1)
+		{
+			return;
+		}
+
+		Voxels[X + X_Res * (Y + Y_Res * Z)] = Value;
+	}
+
