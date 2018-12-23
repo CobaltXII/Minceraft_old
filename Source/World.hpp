@@ -276,3 +276,35 @@ void Generate_World(World* Out, unsigned int Seed)
 			}
 		}
 	}
+
+	// Add some ores. Basically chooses a bunch of random spots, and gets all the points in a 
+	// deformed sphere around that point. For each of those points that are stone, set them to the
+	// ore.
+
+	for (int I = 0; I < Out->X_Res * Out->Z_Res * Out->Y_Res / 1024; I++)
+	{
+		// Coal ore.
+
+		int X = rand() % Out->X_Res;
+		int Y = rand() % Out->Y_Res;
+		int Z = rand() % Out->Z_Res;
+
+		int Radius = rand() % 3 + 1;
+
+		for (int Xr = -Radius; Xr <= Radius; Xr++)
+		{
+			for (int Yr = -Radius; Yr <= Radius; Yr++)
+			{
+				for (int Zr = -Radius; Zr <= Radius; Zr++)
+				{
+					if (Xr * Xr + Yr * Yr + Zr * Zr < Radius * Radius - (rand() % 2))
+					{
+						if (Voxel_Type(Out->Get_Safe(X + Xr, Y + Yr, Z + Zr)) == id_stone)
+						{
+							Out->Set_Safe(X + Xr, Y + Yr, Z + Zr, Make_Voxel(id_coal_ore));
+						}
+					}
+				}
+			}
+		}
+	}
