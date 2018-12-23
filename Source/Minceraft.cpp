@@ -106,3 +106,26 @@ int main(int argc, char** argv)
 		exit(1);
 	}
 
+	// Create the SDL_Window.
+
+	SDL_Window* Main_Window = SDL_CreateWindow
+	(
+		Make_Minceraft_Version_String().c_str(),
+
+		SDL_WINDOWPOS_UNDEFINED,
+		SDL_WINDOWPOS_UNDEFINED,
+
+		Main_X_Resolution,
+		Main_Y_Resolution,
+
+		SDL_WINDOW_HIDDEN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_OPENGL
+	);
+
+	// Check if the SDL_Window was created successfully.
+
+	if (!Main_Window)
+	{
+		std::cout << "Could not create the SDL_Window." << std::endl;
+
+		exit(2);
+	}
