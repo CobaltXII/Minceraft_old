@@ -151,3 +151,25 @@ void Make_Block_Face_Info()
 		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_black"])
 	};
 }
+
+// Debugs Block_Face_Info.
+
+void Debug_Block_Face_Info(std::ostream& Out)
+{
+	for (int i = 1; i < Block_Face_Info.size(); i++)
+	{
+		Out << Block_ID_To_Block_Name[i] << ": " << std::endl << '\t' <<
+
+			"Top: " << All_Block_Texture_Paths[int(Block_Face_Info[i]->Top)] << ", " << std::endl << '\t' <<
+
+			"Bottom: " << All_Block_Texture_Paths[int(Block_Face_Info[i]->Bottom)] << ", " << std::endl << '\t' <<
+
+			"Left: " << All_Block_Texture_Paths[int(Block_Face_Info[i]->Left)] << ", " << std::endl << '\t' <<
+
+			"Right: " << All_Block_Texture_Paths[int(Block_Face_Info[i]->Right)] << ", " << std::endl << '\t' <<
+
+			"Front: " << All_Block_Texture_Paths[int(Block_Face_Info[i]->Front)] << ", " << std::endl << '\t' <<
+
+			"Back: " << All_Block_Texture_Paths[int(Block_Face_Info[i]->Back)] << ", " << std::endl;
+	}
+}
