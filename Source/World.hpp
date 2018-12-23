@@ -52,3 +52,15 @@ struct World
 	{
 		return Voxels[X + X_Res * (Y + Y_Res * Z)];
 	}
+
+	// Get the value of a block in the world.
+
+	inline Voxel Get_Safe(unsigned int X, unsigned int Y, unsigned int Z)
+	{
+		if (X < 0 || Y < 0 || Z < 0 || X > X_Res - 1 || Y > Y_Res - 1 || Z > Z_Res - 1)
+		{
+			return Make_Voxel(id_air);
+		}
+
+		return Voxels[X + X_Res * (Y + Y_Res * Z)];
+	}
