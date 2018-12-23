@@ -81,3 +81,31 @@ struct Perlin
 		return a + b;
 	}
 
+	// Three-dimensional noise.
+
+	double Noise(double x, double y, double z)
+	{
+		int X = int(std::floor(x)) & 255;
+		int Y = int(std::floor(y)) & 255;
+		int Z = int(std::floor(z)) & 255;
+
+		x -= std::floor(x);
+		y -= std::floor(y);
+		z -= std::floor(z);
+
+		double u = Fade(x);
+		double v = Fade(y);
+		double w = Fade(z);
+
+		int A = p[X] + Y;
+
+		int B = p[X + 1] + Y;
+
+		int AA = p[A] + Z;
+		int BA = p[B] + Z;
+
+		int AB = p[A + 1] + Z;
+		int BB = p[B + 1] + Z;
+		
+		return Lerp(w, Lerp(v, Lerp(u, Grad(p[AA], x, y, z), Grad(p[BA], x - 1, y, z)), Lerp(u, Grad(p[AB], x, y - 1, z), Grad(p[BB], x - 1, y - 1, z))), Lerp(v, Lerp(u, Grad(p[AA + 1], x, y, z - 1), Grad(p[BA + 1], x - 1, y, z - 1)), Lerp(u, Grad(p[AB + 1], x, y - 1, z - 1), Grad(p[BB + 1], x - 1, y - 1, z - 1))));
+	}
