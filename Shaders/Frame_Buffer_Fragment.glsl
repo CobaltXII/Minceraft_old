@@ -100,3 +100,12 @@ void main()
 
 		Fragment_Color.y += Tint;
     }
+    else if (Effect == 8)
+    {
+    	// Low tint.
+
+    	float Tint = -20.0f / 255.0f;
+
+		Fragment_Color.y += Tint;
+    }
+}
