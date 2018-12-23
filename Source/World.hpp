@@ -152,3 +152,9 @@ unsigned int Huge_World_Voxels = Huge_World_X_Res * Huge_World_Y_Res * Huge_Worl
 
 unsigned int Huge_World_Memory = sizeof(Voxel) * Huge_World_Voxels;
 
+// World resolutions.
+
+unsigned int World_X_Res_List[5] = {Tiny_World_X_Res, Small_World_X_Res, Medium_World_X_Res, Large_World_X_Res, Huge_World_X_Res};
+unsigned int World_Y_Res_List[5] = {Tiny_World_Y_Res, Small_World_Y_Res, Medium_World_Y_Res, Large_World_Y_Res, Huge_World_Y_Res};
+unsigned int World_Z_Res_List[5] = {Tiny_World_Z_Res, Small_World_Z_Res, Medium_World_Z_Res, Large_World_Z_Res, Huge_World_Z_Res};
+
