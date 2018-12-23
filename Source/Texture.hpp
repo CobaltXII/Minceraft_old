@@ -122,3 +122,13 @@ void Debug_Texture_Name_To_Layer(std::ostream& Out)
 		std::cout << "Key: " << Short_Path << ", Value: " << Texture_Name_To_Layer.at(Short_Path) << " (" << i << ")." << std::endl; 
 	}
 }
+
+// A structure that represents the width, height, and OpenGL identifier of an OpenGL texture.
+
+struct Texture
+{
+	GLuint Storage;
+
+	int X_Res;
+	int Y_Res;
+};
