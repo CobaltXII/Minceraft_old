@@ -633,3 +633,56 @@ int main(int argc, char** argv)
 					}
 				}
 			}
+
+			// Draw and update the chunks. We could iterate using a 1-dimensional loop, but we want
+			// to update the topmost chunks first, so that light propagates correctly.
+
+			unsigned int Chunk_Updates = 0;
+
+			for (int X = 0; X < The_Segmenter->Chunk_X_Res; X++)
+			{
+				for (int Z = 0; Z < The_Segmenter->Chunk_Z_Res; Z++)
+				{
+					for (int Y = 0; Y < The_Segmenter->Chunk_Y_Res; Y++)
+					{
+						Chunk*& The_Chunk = The_Segmenter->The_Chunks[X + The_Segmenter->Chunk_X_Res * (Y + The_Segmenter->Chunk_Y_Res * Z)];
+
+						if (The_Chunk->Modified)
+						{
+							The_Chunk->Destroy();
+
+							Propagate_Skylight(The_World, The_Chunk->X, The_Chunk->Y, The_Chunk->Z, The_Chunk->X_Res, The_Chunk->Y_Res, The_Chunk->Z_Res);
+
+							Chunk* New_Chunk = Make_Chunk(The_World, The_Chunk->X, The_Chunk->Y, The_Chunk->Z, The_Chunk->X_Res, The_Chunk->Y_Res, The_Chunk->Z_Res);
+
+							free(The_Chunk);
+
+							The_Chunk = New_Chunk;
+
+							Chunk_Updates++;
+						}
+
+						Draw_Chunk(The_Chunk);
+					}
+				}
+			}
+
+			std::cout << Chunk_Updates << " chunk update(s).\r" << std::flush;
+
+			// Deactivate the block shader program.
+
+			glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
+
+			// Disable the block shader program.
+
+			glUseProgram(0);
+
+			// Disable backface culling.
+
+			glDisable(GL_CULL_FACE);
+
+			// Disable depth testing.
+
+			glDisable(GL_DEPTH_TEST);
+		}
+
