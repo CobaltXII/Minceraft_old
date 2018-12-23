@@ -246,3 +246,10 @@ struct Perlin
 		}
 	}
 
+	// Constructor.
+
+	Perlin(int seed = std::default_random_engine::default_seed)
+	{
+		Reseed(seed);
+	}
+};
