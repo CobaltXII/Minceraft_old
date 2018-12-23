@@ -686,3 +686,45 @@ int main(int argc, char** argv)
 			glDisable(GL_DEPTH_TEST);
 		}
 
+		// The following code handles crosshair rendering.
+
+		if (false)
+		{
+			// Enable alpha blending.
+
+			glEnable(GL_BLEND);
+
+			glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ZERO);
+
+			// Generate the crosshair.
+
+			Crosshair* The_Crosshair = Make_Crosshair(Main_X_Resolution, Main_Y_Resolution);
+
+			// Enable the crosshair shader program.
+
+			glUseProgram(Crosshair_Program);
+
+			// Bind the vertex array object to the current state.
+
+			glBindVertexArray(The_Crosshair->VAO);
+
+			// Draw the vertex array object as an array of triangles.
+
+			glDrawArrays(GL_TRIANGLES, 0, The_Crosshair->Vertices);
+
+			// Unbind the vertex array object from the current state.
+
+			glBindVertexArray(0);
+
+			// Disable the crosshair shader program.
+
+			glUseProgram(0);
+
+			// Degenerate the crosshair.
+
+			Destroy_Crosshair(The_Crosshair);
+
+			// Disable alpha blending.
+
+			glDisable(GL_BLEND);
+		}
