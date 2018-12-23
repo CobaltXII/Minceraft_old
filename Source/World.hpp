@@ -718,3 +718,33 @@ void Generate_World(World* Out, unsigned int Seed)
 			}
 		}
 	}
+
+	// Calculate the lighting of each block. Currently, the highest block in each X/Z stripe is
+	// set to full light (15), and everything below is set to medium light (7).
+
+	for (float X = 0; X < Out->X_Res; X++)
+	{
+		for (float Z = 0; Z < Out->Z_Res; Z++)
+		{
+			unsigned char Skylight = 15;
+
+			for (float Y = 0; Y < Out->Y_Res; Y++)
+			{
+				Block_ID Block_Type = Voxel_Type(Out->Get(int(X), int(Y), int(Z)));
+
+				Out->Set(int(X), int(Y), int(Z), Make_Voxel(Block_Type, Skylight, 0));
+
+				if (Block_Type != id_air)
+				{
+					if (Skylight != 0)
+					{
+						Skylight -= 1;
+					}
+				}
+			}
+		}
+	}
+
+	// World generation is complete. This comment is used to mark the end of the function. It is
+	// hard to float in curly-brace soup.
+}
