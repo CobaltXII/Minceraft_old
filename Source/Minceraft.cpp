@@ -795,3 +795,22 @@ int main(int argc, char** argv)
 			std::cout << "Framerate (frame: " << Main_Iteration << "): " << std::floor(1000.0 / Frame_Elapsed_Time) << std::endl;
 		}
 	}
+
+	// Destroy the world.
+
+	Destroy_World(The_World);
+
+	// Destroy the chunks.
+
+	for (int i = 0; i < The_Segmenter->Chunk_Count; i++)
+	{
+		if (The_Segmenter->The_Chunks[i]->Live)
+		{
+			The_Segmenter->The_Chunks[i]->Destroy();
+		}
+	}
+
+	// Exit cleanly.
+
+	exit(0);
+}
