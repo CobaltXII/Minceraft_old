@@ -201,3 +201,15 @@ int main(int argc, char** argv)
 
 	Generate_Isometric_Preliminaries();
 
+	// Load the block shader program.
+
+	GLuint Block_Program = Load_Program("../Shaders/Block_Vertex.glsl", "../Shaders/Block_Fragment.glsl");
+
+	// Load the crosshair shader program.
+
+	GLuint Crosshair_Program = Load_Program("../Shaders/Crosshair_Vertex.glsl", "../Shaders/Crosshair_Fragment.glsl");
+
+	// Load the frame buffer shader program.
+
+	GLuint Frame_Buffer_Program = Load_Program("../Shaders/Frame_Buffer_Vertex.glsl", "../Shaders/Frame_Buffer_Fragment.glsl");
+
