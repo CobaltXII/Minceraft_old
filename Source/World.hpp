@@ -4,3 +4,10 @@
 // The world typename Voxel is used to avoid confusion with Block_ID.
 
 typedef unsigned short Voxel;
+
+// Get the Block_ID of a voxel.
+
+inline Block_ID Voxel_Type(Voxel Which)
+{
+	return Block_ID(Which & 0xFF);
+}
