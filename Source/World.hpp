@@ -46,3 +46,9 @@ struct World
 	unsigned int Z_Res;
 	unsigned int Y_Res;
 
+	// Get the value of a block in the world.
+
+	inline Voxel Get(unsigned int X, unsigned int Y, unsigned int Z)
+	{
+		return Voxels[X + X_Res * (Y + Y_Res * Z)];
+	}
