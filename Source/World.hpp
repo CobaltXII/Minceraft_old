@@ -128,3 +128,15 @@ unsigned int Medium_World_Voxels = Medium_World_X_Res * Medium_World_Y_Res * Med
 
 unsigned int Medium_World_Memory = sizeof(Voxel) * Medium_World_Voxels;
 
+// Large world.
+
+unsigned int Large_World_X_Res = 512;
+
+unsigned int Large_World_Y_Res = 256;
+
+unsigned int Large_World_Z_Res = 512;
+
+unsigned int Large_World_Voxels = Large_World_X_Res * Large_World_Y_Res * Large_World_Z_Res;
+
+unsigned int Large_World_Memory = sizeof(Voxel) * Large_World_Voxels;
+
