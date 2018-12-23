@@ -104,3 +104,52 @@ mat4 Mat4_Rotate_X(mat4 Out, float Radians)
 
 	return Out;
 }
+
+// Set a matrix to a Y rotation matrix.
+
+mat4 Mat4_Rotate_Y(mat4 Out, float Radians)
+{
+	float Cos = cos(Radians);
+	float Sin = sin(Radians);
+
+	for (int i = 0; i < 16; i++)
+	{
+		Out[i] = 0.0f;
+	}
+
+	// Line 1.
+
+	Out[0] = Cos;
+
+	Out[1] = 0.0f;
+
+	Out[2] = -Sin;
+
+	Out[3] = 0.0f;
+
+	// Line 2.
+
+	Out[4] = 0.0f;
+	Out[5] = 1.0f;
+	Out[6] = 0.0f;
+	Out[7] = 0.0f;
+
+	// Line 3.
+
+	Out[8] = Sin;
+
+	Out[9] = 0.0f;
+
+	Out[10] = Cos;
+
+	Out[11] = 0.0f;
+
+	// Line 4.
+
+	Out[12] = 0.0f;
+	Out[13] = 0.0f;
+	Out[14] = 0.0f;
+	Out[15] = 1.0f;
+
+	return Out;
+}
