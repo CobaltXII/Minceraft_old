@@ -38,3 +38,13 @@ void main()
 		Fragment_Color.x += Temperature;
 		Fragment_Color.z -= Temperature;
     }
+    else if (Effect == 2)
+    {
+    	// Saturate.
+
+    	vec3 Gray_Tone_Base = vec3(0.3f, 0.59f, 0.11f);
+
+		vec3 Gray_Tone = vec3(dot(Gray_Tone_Base, Fragment_Color.xyz));
+
+		Fragment_Color = vec4(mix(Fragment_Color.xyz, Gray_Tone, -0.5f), 1.0f);
+    }
