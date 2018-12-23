@@ -80,3 +80,52 @@ struct Final_Sprite
 	unsigned int Size_In_Vertices;
 };
 
+// Generate a Final_Sprite* using a Managed_Sprite*.
+
+Final_Sprite* Make_Final_Sprite(Managed_Sprite* The_Managed_Sprite, GLuint The_Texture)
+{
+	Final_Sprite* The_Final_Sprite = new Final_Sprite();
+
+	The_Final_Sprite->Sprite_Texture = The_Texture;
+
+	The_Final_Sprite->Size_In_Vertices = The_Managed_Sprite->Size_In_Vertices;
+
+	// Do all the OpenGL stuff that's needed to create a texture.
+
+	glGenVertexArrays(1, &The_Final_Sprite->Sprite_VAO);
+
+	glGenBuffers(1, &The_Final_Sprite->Sprite_VBO);
+
+	glBindVertexArray(The_Final_Sprite->Sprite_VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, The_Final_Sprite->Sprite_VBO);
+
+	glBufferData(GL_ARRAY_BUFFER, The_Managed_Sprite->Size_In_Bytes, The_Managed_Sprite->Vertices, GL_STATIC_DRAW);
+
+	// Coordinate pointer.
+
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(0 * sizeof(float)));
+
+	glEnableVertexAttribArray(0);
+
+	// Texture coordinate pointer.
+
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+
+	glEnableVertexAttribArray(1);
+
+	// Completely obliterate the Managed_Sprite*.
+
+	free(The_Managed_Sprite->Vertices);
+
+	delete The_Managed_Sprite;
+
+	// The final sprite is finalized, we can now return it. Don't forget to delete it after you
+	// are done with it!
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glBindVertexArray(0);
+
+	return The_Final_Sprite;
+}
