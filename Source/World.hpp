@@ -235,3 +235,44 @@ void Generate_World(World* Out, unsigned int Seed)
 			}
 		}
 	}
+
+	// Set the highground blocks. Basically, this function finds the highest block for each X/Z
+	// strip of the world. The highest block is set to grass if it is above a certain threshold.
+	// If it is below, it is set to either sand or gravel. The three blocks below the highest
+	// block are set to dirt.
+
+	for (float X = 0; X < Out->X_Res; X++)
+	{
+		for (float Z = 0; Z < Out->Z_Res; Z++)
+		{
+			float Sand_Chance = Noise.Noise(X / float(Out->X_Res) * Frequency, Z / float(Out->Z_Res) * Frequency);
+
+			for (float Y = 0; Y < Out->Y_Res; Y++)
+			{
+				if (Out->Get(int(X), int(Y), int(Z)) != id_air)
+				{
+					if (Y / float(Out->Y_Res) > 0.6f)
+					{
+						if (Sand_Chance >= -0.2f)
+						{
+							Out->Set_Safe(int(X), int(Y), int(Z), Make_Voxel(id_sand));
+						}
+						else
+						{
+							Out->Set_Safe(int(X), int(Y), int(Z), Make_Voxel(id_gravel));
+						}
+					}
+					else
+					{
+						Out->Set_Safe(int(X), int(Y), int(Z), Make_Voxel(id_grass));
+					}
+
+					Out->Set_Safe(int(X), int(Y) + 1, int(Z), Make_Voxel(id_dirt));
+					Out->Set_Safe(int(X), int(Y) + 2, int(Z), Make_Voxel(id_dirt));
+					Out->Set_Safe(int(X), int(Y) + 3, int(Z), Make_Voxel(id_dirt));
+
+					break;
+				}
+			}
+		}
+	}
