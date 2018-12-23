@@ -57,3 +57,14 @@ Managed_Sprite* Allocate_Sprite(unsigned int Vertex_Count)
 	return The_Managed_Sprite;
 }
 
+// Write a vertex to a managed sprite.
+
+inline void Write_Vertex(Managed_Sprite* The_Managed_Sprite, float X, float Y, float Xt, float Yt)
+{
+	The_Managed_Sprite->Vertices[The_Managed_Sprite->Offset++] = X;
+	The_Managed_Sprite->Vertices[The_Managed_Sprite->Offset++] = Y;
+
+	The_Managed_Sprite->Vertices[The_Managed_Sprite->Offset++] = Xt;
+	The_Managed_Sprite->Vertices[The_Managed_Sprite->Offset++] = Yt;
+}
+
