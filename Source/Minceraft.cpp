@@ -425,3 +425,29 @@ int main(int argc, char** argv)
 
 			Main_Mouse_Relative = true;
 		}
+
+		// Calculate the looking direction.
+
+		float Want_Look_X = (float(Main_Mouse_Y) - (float(Main_Y_Resolution) / 2.0f)) / float(Main_Y_Resolution) * -180.0f;
+
+		Look_X += (Want_Look_X - Look_X) / 16.0f;
+
+		if (Look_X < -90.0f)
+		{
+			Look_X = -90.0f;
+		}
+
+		if (Look_X > 90.0f)
+		{
+			Look_X = 90.0f;
+		}
+
+		float Want_Look_Y = (float(Main_Mouse_X) - (float(Main_X_Resolution) / 2.0f)) / float(Main_X_Resolution) * -360.0f;
+
+		Look_Y += (Want_Look_Y - Look_Y) / 16.0f;
+
+		// Calculate looking matrices.
+
+		Mat4_Rotate_X(Matrix_View_X, Radians(Look_X));
+		Mat4_Rotate_Y(Matrix_View_Y, Radians(Look_Y));
+
