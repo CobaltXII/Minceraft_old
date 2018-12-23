@@ -26,3 +26,9 @@ inline unsigned char Voxel_Light(Voxel Which)
 	return (Which >> 8) & 0xF; 
 }
 
+// Create a voxel given a Block_ID, a skylight contibution, and an artificial light contibution.
+
+inline Voxel Make_Voxel(unsigned short Type, unsigned short Skylight, unsigned short Light)
+{
+	return (Skylight << 12) | (Light << 8) | Type; 
+}
