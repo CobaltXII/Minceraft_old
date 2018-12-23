@@ -616,18 +616,15 @@ int main(int argc, char** argv)
 			}
 			else if (Main_Mouse_R)
 			{
-				for (int X = -40; X <= 40; X++)
+				for (int X = -3; X <= 3; X++)
 				{
-					for (int Y = -40; Y <= 40; Y++)
+					for (int Y = -3; Y <= 3; Y++)
 					{
-						for (int Z = -40; Z <= 40; Z++)
+						for (int Z = -3; Z <= 3; Z++)
 						{
-							if (X * X + Y * Y + Z * Z < 40 * 40)
+							if (X * X + Y * Y + Z * Z < 3 * 3)
 							{
-								if (rand() % 2)
-								{
-									The_Segmenter->Set_Safe_Unlit(-Player_X + X, -Player_Y + Y, -Player_Z + Z, id_air);
-								}
+								The_Segmenter->Set_Safe_Unlit(-Player_X + X, -Player_Y + Y, -Player_Z + Z, id_air);
 							}
 						}
 					}
