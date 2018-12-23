@@ -58,3 +58,11 @@ void main()
 
 		Fragment_Color = vec4(mix(Fragment_Color.xyz, Gray_Tone, 0.5f), 1.0f);
     }
+    else if (Effect == 4)
+    {
+    	// Grayscale.
+
+    	float Grayscale = Fragment_Color.x * 0.2126f + Fragment_Color.y * 0.7152f + Fragment_Color.z * 0.0722f;
+
+		Fragment_Color = vec4(Grayscale, Grayscale, Grayscale, 1.0f);
+    }
