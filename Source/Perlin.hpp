@@ -16,3 +16,10 @@ struct Perlin
 		return t * t * t * (t * (t * 6 - 15) + 10);
 	}
 
+	// Interpolate.
+
+	static inline double Lerp(double t, double a, double b)
+	{
+		return a + t * (b - a);
+	}
+
