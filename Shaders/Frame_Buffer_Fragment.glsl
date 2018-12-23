@@ -29,3 +29,12 @@ void main()
 		Fragment_Color.x += Temperature;
 		Fragment_Color.z -= Temperature;
     }
+    else if (Effect == 1)
+    {
+    	// Cool.
+
+    	float Temperature = -20.0f / 255.0f;
+
+		Fragment_Color.x += Temperature;
+		Fragment_Color.z -= Temperature;
+    }
