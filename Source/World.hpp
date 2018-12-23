@@ -748,3 +748,58 @@ void Generate_World(World* Out, unsigned int Seed)
 	// World generation is complete. This comment is used to mark the end of the function. It is
 	// hard to float in curly-brace soup.
 }
+
+// Propagate skylight throughout a subset of the world.
+
+void Propagate_Skylight
+(
+	World* Input, 
+
+	unsigned int X, 
+	unsigned int Y, 
+	unsigned int Z, 
+
+	unsigned int X_Res, 
+	unsigned int Y_Res, 
+	unsigned int Z_Res
+)
+{
+	unsigned int Fx = X + X_Res;
+	unsigned int Fy = Y + Y_Res;
+	unsigned int Fz = Z + Z_Res;
+
+	for (unsigned int Cx = X; Cx < Fx; Cx++)
+	{
+		for (unsigned int Cz = Z; Cz < Fz; Cz++)
+		{
+			unsigned int Skylight;
+
+			if (Y == 0)
+			{
+				// Top of the world, where the sky is brightest.
+
+				Skylight = 15;
+			}
+			else
+			{
+				Skylight = Voxel_Skylight(Input->Get(Cx, Y - 1, Cz));
+			}
+
+			for (unsigned int Cy = Y; Cy < Fy; Cy++)
+			{
+				Block_ID Block_Type = Voxel_Type(Input->Get(Cx, Cy, Cz));
+
+				Input->Set(Cx, Cy, Cz, Make_Voxel(Block_Type, Skylight, 0));
+
+				if (Block_Type != id_air)
+				{
+					if (Skylight != 0)
+					{
+						Skylight -= 1;
+					}
+				}
+			}
+		}
+	}
+}
+
