@@ -129,3 +129,25 @@ int main(int argc, char** argv)
 
 		exit(2);
 	}
+
+	// Request OpenGL 3.2.
+
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+
+	// Request double-buffering.
+
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+	// Create the SDL_GLContext.
+
+	SDL_GLContext Main_Context = SDL_GL_CreateContext(Main_Window);
+
+	if (!Main_Context)
+	{
+		std::cout << "Could not create the SDL_GLContext." << std::endl;
+
+		exit(3);
+	}
