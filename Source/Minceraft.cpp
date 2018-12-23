@@ -273,3 +273,54 @@ int main(int argc, char** argv)
 	// Enter the main loop.
 
 	bool Main_Running = true;
+
+	while (Main_Running)
+	{
+		// Remember the time at the start of the frame.
+
+		std::chrono::time_point<std::chrono::high_resolution_clock> Frame_Start_Time = std::chrono::high_resolution_clock::now();
+
+		// Refresh the dimensions, in case the window was resized.
+
+		SDL_GetWindowSize(Main_Window, &Main_X_Resolution, &Main_Y_Resolution);
+
+		SDL_GL_GetDrawableSize(Main_Window, &Context_X_Resolution, &Context_Y_Resolution);
+
+		Aspect_Ratio = float(Context_X_Resolution) / float(Context_Y_Resolution);
+
+		// Poll and handle events.
+
+		SDL_Event e;
+
+		while (SDL_PollEvent(&e))
+		{
+			if (e.type == SDL_QUIT)
+			{
+				// The application was quit.
+
+				Main_Running = false;
+			}
+			else if (e.type == SDL_MOUSEMOTION)
+			{
+				// The mouse moved.
+
+				if (Main_Mouse_Relative)
+				{
+					Main_Mouse_X += e.motion.xrel;
+					Main_Mouse_Y += e.motion.yrel;
+
+					if (Main_Mouse_Y > Main_Y_Resolution - 1)
+					{
+						Main_Mouse_Y = Main_Y_Resolution - 1;
+					}
+					else if (Main_Mouse_Y < 0)
+					{
+						Main_Mouse_Y = 0;
+					}
+				}
+				else
+				{
+					Main_Mouse_X = e.motion.x;
+					Main_Mouse_Y = e.motion.y;
+				}
+			}
