@@ -68,3 +68,15 @@ inline void Write_Vertex(Managed_Sprite* The_Managed_Sprite, float X, float Y, f
 	The_Managed_Sprite->Vertices[The_Managed_Sprite->Offset++] = Yt;
 }
 
+// A structure that represents a sprite loaded to the GPU.
+
+struct Final_Sprite
+{
+	GLuint Sprite_VAO;
+	GLuint Sprite_VBO;
+
+	GLuint Sprite_Texture;
+
+	unsigned int Size_In_Vertices;
+};
+
