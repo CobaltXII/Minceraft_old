@@ -15,3 +15,20 @@ mat4 Mat4_Empty()
 
 	return Out;
 }
+
+// Set a matrix to an identity matrix.
+
+mat4 Mat4_Identity(mat4 Out)
+{
+	for (int i = 0; i < 16; i++)
+	{
+		Out[i] = 0.0f;
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		Out[i * 4 + i] = 1.0f;
+	}
+
+	return Out;
+}
