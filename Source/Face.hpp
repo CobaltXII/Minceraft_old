@@ -42,3 +42,12 @@ Face_Info* Make_Face_Info_All(float All)
 	return New_Face_Info;
 }
 
+// Face_Info* where the Top and Bottom are the same, and all the other faces are the same.
+
+Face_Info* Make_Face_Info_Cap(float Cap, float Side)
+{
+	Face_Info* New_Face_Info = new Face_Info(Cap, Cap, Side, Side, Side, Side);
+
+	return New_Face_Info;
+}
+
