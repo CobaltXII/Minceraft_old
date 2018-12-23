@@ -217,3 +217,17 @@ int main(int argc, char** argv)
 
 	Frame_Buffer* The_Frame_Buffer = Build_Frame_Buffer(Context_X_Resolution, Context_Y_Resolution);
 
+	// Generate the projection matrix.
+
+	mat4 Matrix_Projection = Mat4_Empty();
+
+	Mat4_Projection(Matrix_Projection, Radians(70.0f), Aspect_Ratio, 1.0f, 1000.0f);
+
+	// Generate the view matrices.
+
+	mat4 Matrix_View_X = Mat4_Empty();
+	mat4 Matrix_View_Y = Mat4_Empty();
+
+	Mat4_Rotate_X(Matrix_View_X, 0.0f);
+	Mat4_Rotate_Y(Matrix_View_Y, 0.0f);
+
