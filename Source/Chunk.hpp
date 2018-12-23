@@ -58,3 +58,17 @@ struct Chunk
 
 		Vertex_Array_Size_In_Floats = _Vertex_Array_Size_In_Floats;
 	}
+
+	// Destroy this chunk.
+
+	void Destroy()
+	{
+		Live = false;
+
+		glDeleteVertexArrays(1, &Vertex_Array);
+
+		glDeleteBuffers(1, &Buffer_Object);
+
+		Vertex_Array_Size_In_Floats = 0;
+	}
+};
