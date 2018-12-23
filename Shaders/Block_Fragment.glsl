@@ -41,3 +41,7 @@ void main()
 
 	Fragment_Color = vec4(Fragment_Color.xyz * Texture_Brightness, Fragment_Color.w);
 
+	// Mix with fog, fog density is based on distance to origin.
+
+	Fragment_Color = vec4(mix(Fragment_Color.xyz, Sky_Color, min(1.0f, pow(Vertex_Distance, 2.0f) / Fog_Distance)), 1.0f);
+}
