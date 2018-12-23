@@ -124,3 +124,25 @@ struct Perlin
 		return Noise(x, 0.0, 0.0);
 	}
 
+	// Three-dimensional octave noise.
+
+	double Octave_Noise(double x, double y, double z, int octaves)
+	{
+		double result = 0.0;
+
+		double amp = 1.0;
+
+		for (int i = 0; i < octaves; i++)
+		{
+			result += Noise(x, y, z) * amp;
+
+			x *= 2.0;
+			y *= 2.0;
+			z *= 2.0;
+			
+			amp *= 0.5;
+		}
+
+		return result;
+	}
+
