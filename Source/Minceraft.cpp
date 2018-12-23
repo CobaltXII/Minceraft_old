@@ -406,3 +406,13 @@ int main(int argc, char** argv)
 					Player_Selection = 8;
 				}
 			}
+			else if (e.type == SDL_WINDOWEVENT)
+			{
+				if (e.window.event == SDL_WINDOWEVENT_RESIZED)
+				{
+					SDL_GL_GetDrawableSize(Main_Window, &Context_X_Resolution, &Context_Y_Resolution);
+
+					Rebuild_Frame_Buffer(The_Frame_Buffer, Context_X_Resolution, Context_Y_Resolution);
+				}
+			}
+		}
