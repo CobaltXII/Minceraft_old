@@ -98,3 +98,47 @@ struct Segmenter
 		}
 	}
 
+	// Same as above, but sets the light values of the block being set to the light values of the
+	// current block at the same position as the block being set.
+
+	inline void Set_Safe_Unlit(unsigned int X, unsigned int Y, unsigned int Z, Block_ID Value)
+	{
+		Voxel Current_Value = The_World->Get_Safe(X, Y, Z);
+
+		Set_Safe(X, Y, Z, Make_Voxel(Value, Voxel_Skylight(Current_Value), Voxel_Light(Current_Value)));
+	}
+};
+
+// Create a segmenter from a world.
+
+Segmenter* Make_Segmenter(World* A_World)
+{
+	Segmenter* The_Segmenter = new Segmenter();
+
+	The_Segmenter->The_World = A_World;
+
+	The_Segmenter->Chunk_X_Res = A_World->X_Res / 16;
+	The_Segmenter->Chunk_Y_Res = A_World->Y_Res / 16;
+	The_Segmenter->Chunk_Z_Res = A_World->Z_Res / 16;
+
+	The_Segmenter->Chunk_Count = The_Segmenter->Chunk_X_Res * The_Segmenter->Chunk_Y_Res * The_Segmenter->Chunk_Z_Res;
+
+	The_Segmenter->The_Chunks = (Chunk**)malloc(The_Segmenter->Chunk_Count * sizeof(Chunk*));
+
+	// Generate the chunks. Currently, every chunk is loaded to the GPU.
+
+	for (int X = 0; X < The_Segmenter->Chunk_X_Res; X++)
+	{
+		for (int Y = 0; Y < The_Segmenter->Chunk_Y_Res; Y++)
+		{
+			for (int Z = 0; Z < The_Segmenter->Chunk_Z_Res; Z++)
+			{
+				The_Segmenter->The_Chunks[X + The_Segmenter->Chunk_X_Res * (Y + The_Segmenter->Chunk_Y_Res * Z)] = Make_Chunk(A_World, X * 16, Y * 16, Z * 16, 16, 16, 16);
+			}
+		}
+	}
+
+	// Done, return the segmenter.
+
+	return The_Segmenter;
+}
