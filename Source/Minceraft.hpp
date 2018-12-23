@@ -22,3 +22,6 @@
 #include "World.hpp"
 #include "World.cpp"
 
+#include "Chunk.hpp"
+#include "Chunk.cpp"
+
