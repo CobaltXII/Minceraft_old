@@ -38,3 +38,11 @@ inline Voxel Make_Voxel(unsigned short Type)
 	return 0xFF00 | Type; 
 }
 
+struct World
+{
+	Voxel* Voxels;
+
+	unsigned int X_Res;
+	unsigned int Z_Res;
+	unsigned int Y_Res;
+
