@@ -153,3 +153,10 @@ mat4 Mat4_Rotate_Y(mat4 Out, float Radians)
 
 	return Out;
 }
+
+// Degrees to radians.
+
+inline float Radians(float Degrees)
+{
+	return Degrees * M_PI / 180.0f;
+}
