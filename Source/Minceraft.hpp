@@ -25,3 +25,6 @@
 #include "Chunk.hpp"
 #include "Chunk.cpp"
 
+#include "Segmenter.hpp"
+#include "Segmenter.cpp"
+
