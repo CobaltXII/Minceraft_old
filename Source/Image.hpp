@@ -94,3 +94,21 @@ std::vector<std::string> All_Block_Texture_Paths =
 	"Blocks/wool_colored_yellow.png"
 };
 
+// All interface sprites.
+
+std::vector<std::string> All_Interface_Texture_Paths =
+{
+	"Interface/buttons.png",
+
+	"Interface/font.png",
+
+	"Interface/hotbar_selection.png",
+
+	"Interface/hotbar.png",
+
+	"Interface/inventory_slider.png",
+
+	"Interface/inventory.png",
+
+	"Interface/logo.png"
+};
