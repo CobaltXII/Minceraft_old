@@ -193,3 +193,10 @@ World* Allocate_Empty_World(unsigned int X_Res, unsigned int Y_Res, unsigned int
 	return New_World;
 }
 
+// Destroy a world!
+
+void Destroy_World(World* To_Be_Annihilated)
+{
+	free(To_Be_Annihilated->Voxels);
+}
+
