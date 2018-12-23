@@ -451,3 +451,7 @@ int main(int argc, char** argv)
 		Mat4_Rotate_X(Matrix_View_X, Radians(Look_X));
 		Mat4_Rotate_Y(Matrix_View_Y, Radians(Look_Y));
 
+		// Calculate the projection matrix.
+
+		Mat4_Projection(Matrix_Projection, Radians(70.0f), Aspect_Ratio, 1.0f, 100.0f);
+
