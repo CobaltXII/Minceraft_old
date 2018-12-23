@@ -16,3 +16,6 @@
 #include "Face.hpp"
 #include "Face.cpp"
 
+#include "Perlin.hpp"
+#include "Perlin.cpp"
+
