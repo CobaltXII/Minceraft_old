@@ -231,3 +231,15 @@ int main(int argc, char** argv)
 	Mat4_Rotate_X(Matrix_View_X, 0.0f);
 	Mat4_Rotate_Y(Matrix_View_Y, 0.0f);
 
+	// Generate a fresh world.
+
+	int World_Size = Id_Medium_World;
+
+	World* The_World = Allocate_Empty_World(World_X_Res_List[World_Size], World_Y_Res_List[World_Size], World_Z_Res_List[World_Size]);
+
+	Generate_World(The_World, time(NULL));
+
+	// Generate a segmenter to represent the world.
+
+	Segmenter* The_Segmenter = Make_Segmenter(The_World);
+
