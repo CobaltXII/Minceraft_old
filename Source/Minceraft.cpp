@@ -461,7 +461,7 @@ int main(int argc, char** argv)
 
 		// Accelerate the player's velocity.
 
-		float Acceleration = 0.1f;
+		float Acceleration = 0.025f;
 
 		if (Keys[SDL_SCANCODE_W])
 		{
