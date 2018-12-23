@@ -734,3 +734,40 @@ int main(int argc, char** argv)
 		{
 			Draw_Hotbar(Main_X_Resolution, Main_Y_Resolution, Context_X_Resolution, Context_Y_Resolution, Player_Selection % 9, Block_Texture_Array, 2);
 		}
+
+		// The following code handles frame buffer rendering.
+
+		{
+			// Bind to the original frame buffer (the one bound to the window's display).
+
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+			// Enable the frame buffer's designated shader program.
+
+			glUseProgram(Frame_Buffer_Program);
+
+			// Bind the quad vertex array to the current state.
+
+			glBindVertexArray(The_Frame_Buffer->The_Quad);
+
+			// Bind the frame buffer's attached texture to the current state.
+
+			glBindTexture(GL_TEXTURE_2D, The_Frame_Buffer->The_Texture);
+
+			// Draw the quad to the original frame buffer.
+
+			glDrawArrays(GL_TRIANGLES, 0, 6);
+
+			// Unbind the frame buffer's attached texture from the current state.
+
+			glBindTexture(GL_TEXTURE_2D, 0);
+
+			// Unbind the quad vertex array from the current state.
+
+			glBindVertexArray(0);
+
+			// Disable the frame buffer's designated shader program.
+
+			glUseProgram(0);
+		}
+
