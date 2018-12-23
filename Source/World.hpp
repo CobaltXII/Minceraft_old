@@ -809,3 +809,240 @@ inline bool Transparent(Block_ID Type)
 {
 	return (Type == id_air || Type == id_oak_leaves || Type == id_birch_leaves);
 }
+
+// Convert a subset of a world into a mesh, and store it in World_Mesh_Target.
+
+unsigned int World_Subset_To_Mesh
+(
+	World* Input, 
+
+	unsigned int X, 
+	unsigned int Y, 
+	unsigned int Z, 
+
+	unsigned int X_Res, 
+	unsigned int Y_Res, 
+	unsigned int Z_Res, 
+
+	float* Target
+)
+{
+	float* P = Target;
+
+	unsigned int Fx = X + X_Res;
+	unsigned int Fy = Y + Y_Res;
+	unsigned int Fz = Z + Z_Res;
+
+	for (unsigned int Cx = X; Cx < Fx; Cx++)
+	{
+		for (unsigned int Cy = Y; Cy < Fy; Cy++)
+		{
+			for (unsigned int Cz = Z; Cz < Fz; Cz++)
+			{
+				// Skip voxels that are out of bounds.
+
+				if (Input->Out_Of_Bounds(Cx, Cy, Cz))
+				{
+					continue;
+				}
+
+				// Get the block type.
+
+				Block_ID Block_Type = Voxel_Type(Input->Get(Cx, Cy, Cz));
+
+				// Ignore air blocks.
+
+				if (Block_Type == id_air)
+				{
+					continue;
+				}
+
+				// Get the layer indices for each face of the block.
+
+				float Layer_Top = Block_Face_Info[Block_Type]->Top;
+
+				float Layer_Bottom = Block_Face_Info[Block_Type]->Bottom;
+
+				float Layer_Left = Block_Face_Info[Block_Type]->Left;
+
+				float Layer_Right = Block_Face_Info[Block_Type]->Right;
+
+				float Layer_Front = Block_Face_Info[Block_Type]->Front;
+
+				float Layer_Back = Block_Face_Info[Block_Type]->Back;
+
+				// Get the illumination of the block.
+
+				float Block_Lighting = float(Voxel_Skylight(Input->Get(Cx, Cy, Cz))) / 15.0f;
+
+				float Block_Lighting_Left = Block_Lighting * 0.7;
+
+				float Block_Lighting_Front = Block_Lighting * 0.9;
+
+				// Calculate visible faces.
+
+				bool Visible_Top;
+
+				bool Visible_Bottom;
+
+				bool Visible_Left;
+
+				bool Visible_Right;
+
+				bool Visible_Front;
+
+				bool Visible_Back;
+
+				if (Cy == 0)
+				{
+					Visible_Top = true;
+				}
+				else
+				{
+					Block_ID Block_Other = Voxel_Type(Input->Get(Cx, Cy - 1, Cz));
+
+					Visible_Top = Transparent(Block_Other);
+				}
+
+				if (Cy == Input->Y_Res - 1)
+				{
+					Visible_Bottom = true;
+				}
+				else
+				{
+					Block_ID Block_Other = Voxel_Type(Input->Get(Cx, Cy + 1, Cz));
+
+					Visible_Bottom = Transparent(Block_Other);
+				}
+
+				if (Cx == 0)
+				{
+					Visible_Left = true;
+				}
+				else
+				{
+					Block_ID Block_Other = Voxel_Type(Input->Get(Cx - 1, Cy, Cz));
+
+					Visible_Left = Transparent(Block_Other);
+				}
+
+				if (Cx == Input->X_Res - 1)
+				{
+					Visible_Right = true;
+				}
+				else
+				{
+					Block_ID Block_Other = Voxel_Type(Input->Get(Cx + 1, Cy, Cz));
+
+					Visible_Right = Transparent(Block_Other);
+				}
+
+				if (Cz == Input->Z_Res - 1)
+				{
+					Visible_Front = true;
+				}
+				else
+				{
+					Block_ID Block_Other = Voxel_Type(Input->Get(Cx, Cy, Cz + 1));
+
+					Visible_Front = Transparent(Block_Other);
+				}
+
+				if (Cz == 0)
+				{
+					Visible_Back = true;
+				}
+				else
+				{
+					Block_ID Block_Other = Voxel_Type(Input->Get(Cx, Cy, Cz - 1));
+
+					Visible_Back = Transparent(Block_Other);
+				}
+
+				// Render visible faces.
+
+				if (Visible_Top)
+				{
+					// Top face.
+
+					*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Top; *(P++) = Block_Lighting;
+					*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 1.0f; *(P++) = Layer_Top; *(P++) = Block_Lighting;
+					*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Top; *(P++) = Block_Lighting;
+
+					*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Top; *(P++) = Block_Lighting;
+					*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Top; *(P++) = Block_Lighting;
+					*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 0.0f; *(P++) = Layer_Top; *(P++) = Block_Lighting;
+				}
+
+				if (Visible_Bottom)
+				{
+					// Bottom face.
+
+					*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Bottom; *(P++) = Block_Lighting;
+					*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 1.0f; *(P++) = Layer_Bottom; *(P++) = Block_Lighting;
+					*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Bottom; *(P++) = Block_Lighting;
+
+					*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Bottom; *(P++) = Block_Lighting;
+					*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Bottom; *(P++) = Block_Lighting;
+					*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 0.0f; *(P++) = Layer_Bottom; *(P++) = Block_Lighting;
+				}
+
+				if (Visible_Left)
+				{
+					// Left face.
+
+					*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Left; *(P++) = Block_Lighting_Left;
+					*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 1.0f; *(P++) = Layer_Left; *(P++) = Block_Lighting_Left;
+					*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Left; *(P++) = Block_Lighting_Left;
+
+					*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Left; *(P++) = Block_Lighting_Left;
+					*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Left; *(P++) = Block_Lighting_Left;
+					*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 0.0f; *(P++) = Layer_Left; *(P++) = Block_Lighting_Left;
+				}
+
+				if (Visible_Right)
+				{
+					// Right face.
+
+					*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Right; *(P++) = Block_Lighting_Left;
+					*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 1.0f; *(P++) = Layer_Right; *(P++) = Block_Lighting_Left;
+					*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Right; *(P++) = Block_Lighting_Left;
+
+					*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Right; *(P++) = Block_Lighting_Left;
+					*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Right; *(P++) = Block_Lighting_Left;
+					*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 0.0f; *(P++) = Layer_Right; *(P++) = Block_Lighting_Left;
+				}
+
+				if (Visible_Front)
+				{
+					// Front face.
+
+					*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Front; *(P++) = Block_Lighting_Front;
+					*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 1.0f; *(P++) = Layer_Front; *(P++) = Block_Lighting_Front;
+					*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Front; *(P++) = Block_Lighting_Front;
+
+					*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Front; *(P++) = Block_Lighting_Front;
+					*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Front; *(P++) = Block_Lighting_Front;
+					*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 0.0f; *(P++) = Layer_Front; *(P++) = Block_Lighting_Front;
+				}
+
+				if (Visible_Back)
+				{
+					// Back face.
+
+					*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Back; *(P++) = Block_Lighting_Front;
+					*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 1.0f; *(P++) = Layer_Back; *(P++) = Block_Lighting_Front;
+					*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Back; *(P++) = Block_Lighting_Front;
+
+					*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Back; *(P++) = Block_Lighting_Front;
+					*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Back; *(P++) = Block_Lighting_Front;
+					*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 0.0f; *(P++) = Layer_Back; *(P++) = Block_Lighting_Front;
+				}
+			}	
+		}	
+	}
+
+	// Return the mesh size.
+
+	return P - Target;
+}
