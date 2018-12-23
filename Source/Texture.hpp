@@ -132,3 +132,16 @@ struct Texture
 	int X_Res;
 	int Y_Res;
 };
+
+Texture* Make_Texture(GLuint _Storage, int _X_Res, int _Y_Res)
+{
+	Texture* The_Texture = new Texture();
+
+	The_Texture->Storage = _Storage;
+
+	The_Texture->X_Res = _X_Res;
+	The_Texture->Y_Res = _Y_Res;
+
+	return The_Texture;
+}
+
