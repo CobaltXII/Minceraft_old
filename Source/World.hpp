@@ -19,3 +19,10 @@ inline unsigned char Voxel_Skylight(Voxel Which)
 	return (Which >> 12); 
 }
 
+// Get the artificial light contribution of a voxel.
+
+inline unsigned char Voxel_Light(Voxel Which)
+{
+	return (Which >> 8) & 0xF; 
+}
+
