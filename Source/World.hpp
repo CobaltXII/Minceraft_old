@@ -676,3 +676,30 @@ void Generate_World(World* Out, unsigned int Seed)
 						}
 					}
 					else
+					{
+						// Brown mushroom. This is the trunk.
+
+						Out->Set_Safe(X, Y - 1, Z, Make_Voxel(id_mushroom_stem));
+						Out->Set_Safe(X, Y - 2, Z, Make_Voxel(id_mushroom_stem));
+						Out->Set_Safe(X, Y - 3, Z, Make_Voxel(id_mushroom_stem));
+						Out->Set_Safe(X, Y - 4, Z, Make_Voxel(id_mushroom_stem));
+						Out->Set_Safe(X, Y - 5, Z, Make_Voxel(id_mushroom_stem));
+
+						for (int J = -3; J <= 3; J++)
+						{
+							for (int K = -3; K <= 3; K++)
+							{
+								if ((J == 3 && K == 3) || (J == 3 && K == -3) || (J == -3 && K == 3) || (J == -3 && K == -3))
+								{
+									continue;
+								}
+
+								Out->Set_Safe(X + J, Y - 6, Z + K, Make_Voxel(id_brown_mushroom_block));
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
