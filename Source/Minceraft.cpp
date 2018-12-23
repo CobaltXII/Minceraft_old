@@ -337,3 +337,16 @@ int main(int argc, char** argv)
 					Main_Mouse_R = true;
 				}
 			}
+			else if (e.type == SDL_MOUSEBUTTONUP)
+			{
+				// A mouse button was released.
+
+				if (e.button.button == SDL_BUTTON_LEFT)
+				{
+					Main_Mouse_L = false;
+				}
+				else if (e.button.button == SDL_BUTTON_RIGHT)
+				{
+					Main_Mouse_R = false;
+				}
+			}
