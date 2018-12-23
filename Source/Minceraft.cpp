@@ -771,3 +771,27 @@ int main(int argc, char** argv)
 			glUseProgram(0);
 		}
 
+		// Draw frame.
+
+		SDL_GL_SwapWindow(Main_Window);
+
+		// Cap framerate.
+
+		double Frame_Elapsed_Time = std::chrono::duration<double, std::milli>(std::chrono::high_resolution_clock::now() - Frame_Start_Time).count();
+
+		if (Frame_Elapsed_Time < 1000.0f / 60.0f)
+		{
+			SDL_Delay(int(1000.0f / 60.0f - Frame_Elapsed_Time));
+		}
+
+		// Update iteration counter.
+
+		Main_Iteration++;
+
+		// Output framerate every 60 frames.
+
+		if (Main_Iteration % 60 == 0)
+		{
+			std::cout << "Framerate (frame: " << Main_Iteration << "): " << std::floor(1000.0 / Frame_Elapsed_Time) << std::endl;
+		}
+	}
