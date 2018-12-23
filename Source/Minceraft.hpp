@@ -37,3 +37,6 @@
 #include "Framebuffer.hpp"
 #include "Framebuffer.cpp"
 
+#include "Sprite.hpp"
+#include "Sprite.cpp"
+
