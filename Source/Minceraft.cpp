@@ -416,3 +416,12 @@ int main(int argc, char** argv)
 				}
 			}
 		}
+
+		// Set relative mouse mode, if required.
+
+		if (Main_Mouse_L)
+		{
+			SDL_SetRelativeMouseMode(SDL_TRUE);
+
+			Main_Mouse_Relative = true;
+		}
