@@ -215,3 +215,9 @@ struct Perlin
 		return Octave_Noise(x, octaves) * 0.5 + 0.5;
 	}
 
+	// Scaled two-dimensional octave noise.
+
+	inline double Octave_Noise_0_1(double x, double y, int octaves)
+	{
+		return Octave_Noise(x, y, octaves) * 0.5 + 0.5;
+	}
