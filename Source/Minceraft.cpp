@@ -90,3 +90,6 @@ unsigned long Main_Iteration = 0;
 
 // Entry point.
 
+int main(int argc, char** argv)
+{
+	// Initialize dimensions.
