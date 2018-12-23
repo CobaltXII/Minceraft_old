@@ -108,3 +108,17 @@ GLuint Generate_Block_Texture_Array()
 
 	return Block_Texture_Array;
 }
+
+// Debugger for Texture_Name_To_Layer.
+
+void Debug_Texture_Name_To_Layer(std::ostream& Out)
+{
+	for (int i = 0; i < All_Block_Texture_Paths.size(); i++)
+	{
+		std::string Short_Path = std::string(All_Block_Texture_Paths[i]).erase(0, 7);
+
+		Short_Path = Short_Path.substr(0, Short_Path.length() - 4);
+
+		std::cout << "Key: " << Short_Path << ", Value: " << Texture_Name_To_Layer.at(Short_Path) << " (" << i << ")." << std::endl; 
+	}
+}
