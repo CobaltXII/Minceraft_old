@@ -59,3 +59,95 @@ Face_Info* Make_Face_Info_Caps(float Top, float Bottom, float Side)
 
 	return New_Face_Info;
 }
+
+// Lookup Block_ID in Block_Face_Info to get the Face_Info* of that Block_ID.
+
+std::vector<Face_Info*> Block_Face_Info;
+
+void Make_Block_Face_Info()
+{
+	Block_Face_Info.clear();
+
+	Block_Face_Info = 
+	{
+		Make_Face_Info_All(-1.0f),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["bedrock"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["stone"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["cobblestone"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["dirt"]),
+
+		Make_Face_Info_Caps(Texture_Name_To_Layer["grass_top"], Texture_Name_To_Layer["dirt"], Texture_Name_To_Layer["grass_side"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["sand"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["gravel"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["brick"]),
+
+		Make_Face_Info_Cap(Texture_Name_To_Layer["oak_planks"], Texture_Name_To_Layer["bookshelf"]),
+
+		Make_Face_Info_Cap(Texture_Name_To_Layer["oak_log_top"], Texture_Name_To_Layer["oak_log_side"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["oak_planks"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["oak_leaves"]),
+
+		Make_Face_Info_Cap(Texture_Name_To_Layer["birch_log_top"], Texture_Name_To_Layer["birch_log_side"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["birch_planks"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["birch_leaves"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["mushroom_block_red"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["mushroom_block_brown"]),
+
+		Make_Face_Info_Cap(Texture_Name_To_Layer["mushroom_block_stem_top"], Texture_Name_To_Layer["mushroom_block_stem_side"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["coal_ore"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["iron_ore"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["gold_ore"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["diamond_ore"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["emerald_ore"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_white"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_orange"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_magenta"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_light_blue"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_yellow"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_lime"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_pink"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_gray"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_silver"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_cyan"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_purple"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_blue"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_brown"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_green"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_red"]),
+
+		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_black"])
+	};
+}
