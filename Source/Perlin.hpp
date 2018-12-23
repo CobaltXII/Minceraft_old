@@ -229,3 +229,20 @@ struct Perlin
 		return Octave_Noise(x, y, z, octaves) * 0.5 + 0.5;
 	}
 
+	// Reseed permutations.
+
+	void Reseed(int seed)
+	{
+		for (unsigned int i = 0; i < 256; i++)
+		{
+			p[i] = i;
+		}
+
+		std::shuffle(std::begin(p), std::begin(p) + 256, std::default_random_engine(seed));
+
+		for (unsigned int i = 0; i < 256; i++)
+		{
+			p[256 + i] = p[i];
+		}
+	}
+
