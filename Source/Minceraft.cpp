@@ -455,3 +455,61 @@ int main(int argc, char** argv)
 
 		Mat4_Projection(Matrix_Projection, Radians(70.0f), Aspect_Ratio, 1.0f, 100.0f);
 
+		// Get the keyboard state.
+
+		const Uint8* Keys = SDL_GetKeyboardState(NULL);
+
+		// Accelerate the player's velocity.
+
+		float Acceleration = 0.1f;
+
+		if (Keys[SDL_SCANCODE_W])
+		{
+			Player_Vz += cos(Radians(Look_Y)) * Acceleration;
+			Player_Vx += sin(Radians(Look_Y)) * Acceleration;
+
+			// Yeah, this call to sin is actually a mistake, but it works better than a call to
+			// tan, funnily enough.
+
+			Player_Vy += sin(Radians(Look_X)) * Acceleration;
+		}
+		else if (Keys[SDL_SCANCODE_S])
+		{
+			Player_Vz -= cos(Radians(Look_Y)) * Acceleration;
+			Player_Vx -= sin(Radians(Look_Y)) * Acceleration;
+
+			Player_Vy -= sin(Radians(Look_X)) * Acceleration;
+		}
+
+		if (Keys[SDL_SCANCODE_A])
+		{
+			Player_Vz += cos(Radians(Look_Y + 90.0f)) * Acceleration;
+			Player_Vx += sin(Radians(Look_Y + 90.0f)) * Acceleration;
+		}
+		else if (Keys[SDL_SCANCODE_D])
+		{
+			Player_Vz += cos(Radians(Look_Y - 90.0f)) * Acceleration;
+			Player_Vx += sin(Radians(Look_Y - 90.0f)) * Acceleration;
+		}
+
+		if (Keys[SDL_SCANCODE_SPACE])
+		{
+			Player_Vy += Acceleration;
+		}
+		else if (Keys[SDL_SCANCODE_LSHIFT])
+		{
+			Player_Vy -= Acceleration;
+		}
+
+		// Update the player's velocity and position.
+
+		float Friction = 0.9f;
+
+		Player_Vx *= Friction;
+		Player_Vy *= Friction;
+		Player_Vz *= Friction;
+
+		Player_X += Player_Vx;
+		Player_Y += Player_Vy;
+		Player_Z += Player_Vz;
+
