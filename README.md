@@ -4,6 +4,10 @@ Minceraft is a clone of Minecraft written in C++11 using SDL2 and OpenGL 3.2. Mi
 
 ![A generic Minceraft landscape](https://github.com/CobaltXII/Minceraft/blob/master/Screenshots/screenshot_1.png?raw=true)
 
+# Changelog
+
+Minceraft is still in extremely early development. The first release is still not out, so you will have to wait to see updates to the changelog. However, you are free to make your own additions and/or bug fixes and submit them for review, perhaps they will be added.
+
 # Legal information
 
 All of the image files included in this repository are the original work and property of Mojang AB. This project is not supported by, affiliated with Mojang AB or Microsoft Corporation (MS).
