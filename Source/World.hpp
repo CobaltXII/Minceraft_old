@@ -32,3 +32,9 @@ inline Voxel Make_Voxel(unsigned short Type, unsigned short Skylight, unsigned s
 {
 	return (Skylight << 12) | (Light << 8) | Type; 
 }
+
+inline Voxel Make_Voxel(unsigned short Type)
+{
+	return 0xFF00 | Type; 
+}
+
