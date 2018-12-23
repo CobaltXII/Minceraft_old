@@ -243,3 +243,33 @@ int main(int argc, char** argv)
 
 	Segmenter* The_Segmenter = Make_Segmenter(The_World);
 
+	// Show the window.
+
+	SDL_ShowWindow(Main_Window);
+
+	// Create variables to hold the player's position.
+
+	float Player_X = -float(The_World->X_Res) / 2.0f;
+
+	float Player_Y = 0.0f;
+
+	float Player_Z = -float(The_World->Z_Res) / 2.0f;
+
+	// Create variables to hold the player's velocity.
+
+	float Player_Vx = 0.0f;
+	float Player_Vy = 0.0f;
+	float Player_Vz = 0.0f;
+
+	// Create variables to hold the player's direction.
+
+	float Look_X = 0.0f;
+	float Look_Y = 0.0f;
+
+	// Create a variable to hold the player's selected item.
+
+	int Player_Selection = 0;
+
+	// Enter the main loop.
+
+	bool Main_Running = true;
