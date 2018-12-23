@@ -18,7 +18,7 @@ void main()
 {
     Fragment_Color = texture(Screen_Texture, Texture_Coordinates);
 
-    int Effect = 0;
+    int Effect = -1;
 
     if (Effect == 0)
     {
