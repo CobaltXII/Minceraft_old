@@ -728,3 +728,9 @@ int main(int argc, char** argv)
 
 			glDisable(GL_BLEND);
 		}
+
+		// Draw the heads-up-display.
+
+		{
+			Draw_Hotbar(Main_X_Resolution, Main_Y_Resolution, Context_X_Resolution, Context_Y_Resolution, Player_Selection % 9, Block_Texture_Array, 2);
+		}
