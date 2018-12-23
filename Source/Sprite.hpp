@@ -178,3 +178,23 @@ void Draw_Sprite(Final_Sprite* The_Final_Sprite)
 
 	glDisable(GL_BLEND);
 }
+
+// Generate a test sprite (this looks terrible).
+
+Final_Sprite* Generate_Test_Sprite()
+{
+	Managed_Sprite* My_Managed_Sprite = Allocate_Sprite(6);
+
+	Write_Vertex(My_Managed_Sprite, -1.0f, +1.0f, 0.0f, 0.0f);
+	Write_Vertex(My_Managed_Sprite, -1.0f, -1.0f, 0.0f, 1.0f);
+	Write_Vertex(My_Managed_Sprite, +1.0f, -1.0f, 1.0f, 1.0f);
+
+	Write_Vertex(My_Managed_Sprite, -1.0f, +1.0f, 0.0f, 0.0f);
+	Write_Vertex(My_Managed_Sprite, +1.0f, -1.0f, 1.0f, 1.0f);
+	Write_Vertex(My_Managed_Sprite, +1.0f, +1.0f, 1.0f, 0.0f);
+
+	Final_Sprite* My_Final_Sprite = Make_Final_Sprite(My_Managed_Sprite, Interface_Textures["logo"]->Storage);
+
+	return My_Final_Sprite;
+}
+
