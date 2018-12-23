@@ -168,3 +168,28 @@ const int Id_Large_World = 3;
 
 const int Id_Huge_World = 4;
 
+// Allocate memory for an empty world with the specified dimensions (use the world size
+// constants).
+
+World* Allocate_Empty_World(unsigned int X_Res, unsigned int Y_Res, unsigned int Z_Res)
+{
+	World* New_World = new World();
+
+	New_World->Voxels = (Voxel*)malloc(X_Res * Y_Res * Z_Res * sizeof(Voxel));
+
+	if (!New_World->Voxels)
+	{
+		std::cout << "Could not allocate space to hold a World object (" << (X_Res * Y_Res * Z_Res * sizeof(Voxel)) << " bytes are needed)." << std::endl;
+
+		exit(11);
+	}
+
+	memset(New_World->Voxels, 0, X_Res * Y_Res * Z_Res * sizeof(Voxel));
+
+	New_World->X_Res = X_Res;
+	New_World->Y_Res = Y_Res;
+	New_World->Z_Res = Z_Res;
+
+	return New_World;
+}
+
