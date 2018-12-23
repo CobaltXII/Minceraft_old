@@ -152,3 +152,36 @@ Chunk* Make_Chunk
 
 	return The_Chunk;
 }
+
+// Draw a chunk.
+
+inline void Draw_Chunk(Chunk* The_Chunk)
+{
+	if (The_Chunk->Vertex_Array_Size_In_Floats > 0 && The_Chunk->Live)
+	{
+		// Bind the vertex array object to the current state.
+
+		glBindVertexArray(The_Chunk->Vertex_Array);
+
+		// Draw the vertex array object as an array of triangles.
+
+		glDrawArrays(GL_TRIANGLES, 0, The_Chunk->Vertex_Array_Size_In_Floats / 7);
+
+		// Unbind the vertex array object from the current state.
+
+		glBindVertexArray(0);
+	}
+}
+
+// Debug a chunk.
+
+void Debug_Chunk(std::ostream& Out, Chunk* The_Chunk)
+{
+	Out << "X: " << The_Chunk->X << ", Y: " << The_Chunk->Y << ", Z: " << The_Chunk->Z << std::endl;
+
+	Out << "X_Res: " << The_Chunk->X_Res << ", Y_Res " << The_Chunk->Y_Res << ", Z_Res: " << The_Chunk->Z_Res << std::endl;
+
+	Out << "Vertex_Array: " << The_Chunk->Vertex_Array << std::endl;
+
+	Out << "Vertex_Array_Size_In_Floats: " << The_Chunk->Vertex_Array_Size_In_Floats << std::endl;
+}
