@@ -803,3 +803,9 @@ void Propagate_Skylight
 	}
 }
 
+// Returns true if a block type is not fully opaque.
+
+inline bool Transparent(Block_ID Type)
+{
+	return (Type == id_air || Type == id_oak_leaves || Type == id_birch_leaves);
+}
