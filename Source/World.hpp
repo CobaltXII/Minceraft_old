@@ -369,3 +369,33 @@ void Generate_World(World* Out, unsigned int Seed)
 		}
 	}
 
+	for (int I = 0; I < Out->X_Res * Out->Z_Res * Out->Y_Res / 16384; I++)
+	{
+		// Diamond ore.
+
+		int X = rand() % Out->X_Res;
+
+		int Y = (rand() % int(float(Out->Y_Res) * 0.15)) + (float(Out->Y_Res) * 0.85);
+
+		int Z = rand() % Out->Z_Res;
+
+		int Radius = 1;
+
+		for (int Xr = -Radius; Xr <= Radius; Xr++)
+		{
+			for (int Yr = -Radius; Yr <= Radius; Yr++)
+			{
+				for (int Zr = -Radius; Zr <= Radius; Zr++)
+				{
+					if (Xr * Xr + Yr * Yr + Zr * Zr < Radius * Radius + 1)
+					{
+						if (Voxel_Type(Out->Get_Safe(X + Xr, Y + Yr, Z + Zr)) == id_stone)
+						{
+							Out->Set_Safe(X + Xr, Y + Yr, Z + Zr, Make_Voxel(id_diamond_ore));
+						}
+					}
+				}
+			}
+		}
+	}
+
