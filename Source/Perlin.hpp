@@ -116,3 +116,11 @@ struct Perlin
 	{
 		return Noise(x, y, 0.0);
 	}
+
+	// One-dimensional noise.
+
+	inline double Noise(double x)
+	{
+		return Noise(x, 0.0, 0.0);
+	}
+
