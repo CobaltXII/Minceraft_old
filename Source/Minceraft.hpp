@@ -19,3 +19,6 @@
 #include "Perlin.hpp"
 #include "Perlin.cpp"
 
+#include "World.hpp"
+#include "World.cpp"
+
