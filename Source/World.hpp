@@ -703,3 +703,18 @@ void Generate_World(World* Out, unsigned int Seed)
 		}
 	}
 
+	// Add bedrock. This will fill the bottom layer with 100% bedrock, and the second from bottom
+	// layer with ~50% bedrock.
+
+	for (float X = 0; X < Out->X_Res; X++)
+	{
+		for (float Z = 0; Z < Out->Z_Res; Z++)
+		{
+			Out->Set(X, Out->Y_Res - 1, Z, Make_Voxel(id_bedrock));
+
+			if (rand() % 2 == 0)
+			{
+				Out->Set(X, Out->Y_Res - 2, Z, Make_Voxel(id_bedrock));
+			}
+		}
+	}
