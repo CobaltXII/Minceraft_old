@@ -32,3 +32,13 @@ struct Face_Info
 		Back = _Back;
 	}
 };
+
+// Face_Info* where all faces are the same.
+
+Face_Info* Make_Face_Info_All(float All)
+{
+	Face_Info* New_Face_Info = new Face_Info(All, All, All, All, All, All);
+
+	return New_Face_Info;
+}
+
