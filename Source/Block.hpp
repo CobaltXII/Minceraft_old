@@ -89,3 +89,87 @@ enum Block_ID
 	id_last
 };
 
+// Conversion from Block_ID to std::string.
+
+std::vector<std::string> Block_ID_To_String =
+{
+	"air",
+
+	"bedrock",
+
+	"stone",
+
+	"cobblestone",
+
+	"dirt",
+
+	"grass",
+
+	"sand",
+
+	"gravel",
+
+	"brick",
+
+	"bookshelf",
+
+	"oak_log",
+
+	"oak_planks",
+
+	"oak_leaves",
+
+	"birch_log",
+
+	"birch_planks",
+
+	"birch_leaves",
+
+	"red_mushroom_block",
+
+	"brown_mushroom_block",
+
+	"mushroom_stem",
+
+	"coal_ore",
+
+	"iron_ore",
+
+	"gold_ore",
+
+	"diamond_ore",
+
+	"emerald_ore",
+
+	"white_wool",
+
+	"orange_wool",
+
+	"magenta_wool",
+
+	"light_blue_wool",
+
+	"yellow_wool",
+
+	"lime_wool",
+
+	"pink_wool",
+
+	"gray_wool",
+
+	"light_gray_wool",
+
+	"cyan_wool",
+
+	"purple_wool",
+
+	"blue_wool",
+
+	"brown_wool",
+
+	"green_wool",
+
+	"red_wool",
+
+	"black_wool"
+};
