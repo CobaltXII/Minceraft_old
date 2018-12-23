@@ -151,3 +151,31 @@ int main(int argc, char** argv)
 
 		exit(3);
 	}
+
+	// Set the swap interval to update immediately.
+
+	SDL_GL_SetSwapInterval(0);
+
+	// Set up preliminaries for depth testing.
+
+	glEnable(GL_DEPTH_CLAMP);
+
+	// Set up preliminaries for backface culling.
+
+	glCullFace(GL_BACK);
+
+	glFrontFace(GL_CW);
+
+	// Enable alpha blending.
+
+	if (false)
+	{
+		// Actually, we don't need alpha blending right now because textures currently only have
+		// completely opaque or completely transparent texels. Completely transparent texels are
+		// discarded by the fragment shader.
+
+		glEnable(GL_BLEND);
+
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+
