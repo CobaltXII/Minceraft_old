@@ -17,3 +17,15 @@ out vec4 Fragment_Color;
 void main()
 {
     Fragment_Color = texture(Screen_Texture, Texture_Coordinates);
+
+    int Effect = 0;
+
+    if (Effect == 0)
+    {
+    	// Warm.
+
+    	float Temperature = 20.0f / 255.0f;
+
+		Fragment_Color.x += Temperature;
+		Fragment_Color.z -= Temperature;
+    }
