@@ -7,3 +7,6 @@
 #include "Texture.hpp"
 #include "Texture.cpp"
 
+#include "Shader.hpp"
+#include "Shader.cpp"
+
