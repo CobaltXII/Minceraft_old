@@ -43,3 +43,5 @@
 #include "Isometric.hpp"
 #include "Isometric.cpp"
 
+#include "Hotbar.hpp"
+#include "Hotbar.cpp"
