@@ -36,3 +36,8 @@ void main()
 
 		discard;
 	}
+
+	// Add light.
+
+	Fragment_Color = vec4(Fragment_Color.xyz * Texture_Brightness, Fragment_Color.w);
+
