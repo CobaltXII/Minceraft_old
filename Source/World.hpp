@@ -158,3 +158,13 @@ unsigned int World_X_Res_List[5] = {Tiny_World_X_Res, Small_World_X_Res, Medium_
 unsigned int World_Y_Res_List[5] = {Tiny_World_Y_Res, Small_World_Y_Res, Medium_World_Y_Res, Large_World_Y_Res, Huge_World_Y_Res};
 unsigned int World_Z_Res_List[5] = {Tiny_World_Z_Res, Small_World_Z_Res, Medium_World_Z_Res, Large_World_Z_Res, Huge_World_Z_Res};
 
+const int Id_Tiny_World = 0;
+
+const int Id_Small_World = 1;
+
+const int Id_Medium_World = 2;
+
+const int Id_Large_World = 3;
+
+const int Id_Huge_World = 4;
+
