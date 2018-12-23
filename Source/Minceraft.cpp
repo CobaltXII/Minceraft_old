@@ -324,3 +324,16 @@ int main(int argc, char** argv)
 					Main_Mouse_Y = e.motion.y;
 				}
 			}
+			else if (e.type == SDL_MOUSEBUTTONDOWN)
+			{
+				// A mouse button was pressed.
+
+				if (e.button.button == SDL_BUTTON_LEFT)
+				{
+					Main_Mouse_L = true;
+				}
+				else if (e.button.button == SDL_BUTTON_RIGHT)
+				{
+					Main_Mouse_R = true;
+				}
+			}
