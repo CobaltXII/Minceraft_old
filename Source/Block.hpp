@@ -258,3 +258,13 @@ std::vector<std::string> Block_ID_To_Block_Name =
 
 	"Black Wool"
 };
+
+// Outputs information regarding block data, for debugging.
+
+void Debug_Block_Information(std::ostream& Out_Stream)
+{
+	for (int i = 0; i < id_last; i++)
+	{
+		Out_Stream << "Block_ID: " << i << ", Block_ID_To_String: \"" << Block_ID_To_String[i] << "\", Block_ID_To_Block_Name: \"" << Block_ID_To_Block_Name[i] << "\"." << std::endl; 
+	}
+}
