@@ -513,3 +513,49 @@ int main(int argc, char** argv)
 		Player_Y += Player_Vy;
 		Player_Z += Player_Vz;
 
+		// Use the new frame buffer as a render target. This is used instead of the default render
+		// target so that post-processing effects can be applied easily.
+
+		glBindFramebuffer(GL_FRAMEBUFFER, The_Frame_Buffer->The_Frame_Buffer);
+
+		// Clear screen to the sky color.
+
+		glClearColor(186.0f / 255.0f, 214.0f / 255.0f, 254.0f / 255.0f, 1.0f);
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		// The following code handles world rendering.
+
+		{
+			// Enable depth testing.
+
+			glEnable(GL_DEPTH_TEST);
+
+			// Enable backface culling.
+
+			glEnable(GL_CULL_FACE);
+
+			// Enable the block shader program.
+
+			glUseProgram(Block_Program);
+
+			// Activate the block texture array.
+
+			glBindTexture(GL_TEXTURE_2D_ARRAY, Block_Texture_Array);
+
+			// Pass the uniform variables to the block shader program.
+
+			glUniform1f(glGetUniformLocation(Block_Program, "Time"), float(SDL_GetTicks()) / 1000.0f);
+
+			glUniform1i(glGetUniformLocation(Block_Program, "Block_Texture_Array"), 0);
+
+			glUniformMatrix4fv(glGetUniformLocation(Block_Program, "Matrix_Projection"), 1, GL_FALSE, Matrix_Projection);
+
+			glUniformMatrix4fv(glGetUniformLocation(Block_Program, "Matrix_View_X"), 1, GL_FALSE, Matrix_View_X);
+			glUniformMatrix4fv(glGetUniformLocation(Block_Program, "Matrix_View_Y"), 1, GL_FALSE, Matrix_View_Y);
+
+			glUniform3f(glGetUniformLocation(Block_Program, "Translation_Vector"), Player_X, Player_Y, Player_Z);
+
+			// Fog uses a special algorithm to calculate it's far distance.
+
+			glUniform1f(glGetUniformLocation(Block_Program, "Fog_Distance"), pow(sqrt(float(The_World->X_Res * The_World->Z_Res)), 1.75f));
