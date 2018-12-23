@@ -200,3 +200,10 @@ struct Perlin
 	{
 		return Noise(x, y) * 0.5 + 0.5;
 	}
+
+	// Scaled three-dimensional noise.
+
+	inline double Noise_0_1(double x, double y, double z)
+	{
+		return Noise(x, y, z) * 0.5 + 0.5;
+	}
