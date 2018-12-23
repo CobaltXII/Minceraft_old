@@ -40,3 +40,6 @@
 #include "Sprite.hpp"
 #include "Sprite.cpp"
 
+#include "Isometric.hpp"
+#include "Isometric.cpp"
+
