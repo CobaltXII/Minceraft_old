@@ -399,3 +399,16 @@ void Generate_World(World* Out, unsigned int Seed)
 		}
 	}
 
+	// Plant trees.
+
+	for (int I = 0; I < Out->X_Res * Out->Z_Res / 32; I++)
+	{
+		Tree:
+
+		int X = rand() % Out->X_Res;
+		int Z = rand() % Out->Z_Res;
+
+		Block_ID Tree_Leaf;
+
+		Block_ID Tree_Log;
+
