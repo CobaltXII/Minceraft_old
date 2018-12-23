@@ -424,3 +424,75 @@ void Generate_World(World* Out, unsigned int Seed)
 
 			Tree_Log = id_oak_log;
 		}
+
+		// Find the highest layer.
+
+		for (float Y = 0; Y < Out->Y_Res; Y++)
+		{
+			if (Voxel_Type(Out->Get(int(X), int(Y), int(Z))) != id_air)
+			{
+				// Okay, found something that is not air.
+
+				if (Voxel_Type(Out->Get(int(X), int(Y), int(Z))) == id_grass)
+				{
+					// It's grass, we may plant a tree if there are enough blocks available above 
+					// the grass.
+
+					if (rand() % 2 == 0)
+					{
+						// Original tree.
+
+						if (Out->Out_Of_Bounds(X, Y - 6, Z))
+						{
+							goto Tree;
+						} 
+
+						// This is the trunk.
+
+						Out->Set_Safe(X, Y - 1, Z, Make_Voxel(Tree_Log));
+						Out->Set_Safe(X, Y - 2, Z, Make_Voxel(Tree_Log));
+						Out->Set_Safe(X, Y - 3, Z, Make_Voxel(Tree_Log));
+						Out->Set_Safe(X, Y - 4, Z, Make_Voxel(Tree_Log));
+						Out->Set_Safe(X, Y - 5, Z, Make_Voxel(Tree_Log));
+
+						// This is the cross at the top.
+
+						Out->Set_Safe(X, Y - 6, Z, Make_Voxel(Tree_Leaf));
+
+						Out->Set_Safe(X - 1, Y - 6, Z, Make_Voxel(Tree_Leaf));
+						Out->Set_Safe(X + 1, Y - 6, Z, Make_Voxel(Tree_Leaf));
+
+						Out->Set_Safe(X, Y - 6, Z + 1, Make_Voxel(Tree_Leaf));
+						Out->Set_Safe(X, Y - 6, Z - 1, Make_Voxel(Tree_Leaf));
+
+						// This is the square at the layer second from the top.
+
+						for (int J = -1; J <= 1; J++)
+						{
+							for (int K = -1; K <= 1; K++)
+							{
+								if (J == 0 && K == 0)
+								{
+									continue;
+								}
+								
+								Out->Set_Safe(X + J, Y - 5, Z + K, Make_Voxel(Tree_Leaf));
+							}
+						}
+
+						// These are the squares at the third and fourth layer from the top.
+
+						for (int J = -2; J <= 2; J++)
+						{
+							for (int K = -2; K <= 2; K++)
+							{
+								if (J == 0 && K == 0)
+								{
+									continue;
+								}
+								
+								Out->Set_Safe(X + J, Y - 4, Z + K, Make_Voxel(Tree_Leaf));
+								Out->Set_Safe(X + J, Y - 3, Z + K, Make_Voxel(Tree_Leaf));
+							}
+						}
+					}
