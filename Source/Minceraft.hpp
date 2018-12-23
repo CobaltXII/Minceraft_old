@@ -34,3 +34,6 @@
 #include "Crosshair.hpp"
 #include "Crosshair.cpp"
 
+#include "Framebuffer.hpp"
+#include "Framebuffer.cpp"
+
