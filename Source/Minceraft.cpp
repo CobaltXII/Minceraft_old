@@ -213,3 +213,7 @@ int main(int argc, char** argv)
 
 	GLuint Frame_Buffer_Program = Load_Program("../Shaders/Frame_Buffer_Vertex.glsl", "../Shaders/Frame_Buffer_Fragment.glsl");
 
+	// Generate the frame buffer.
+
+	Frame_Buffer* The_Frame_Buffer = Build_Frame_Buffer(Context_X_Resolution, Context_Y_Resolution);
+
