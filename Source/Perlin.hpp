@@ -187,3 +187,9 @@ struct Perlin
 		return result;
 	}
 
+	// Scaled one-dimensional noise.
+
+	inline double Noise_0_1(double x)
+	{
+		return Noise(x) * 0.5 + 0.5;
+	}
