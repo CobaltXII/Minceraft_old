@@ -412,3 +412,15 @@ void Generate_World(World* Out, unsigned int Seed)
 
 		Block_ID Tree_Log;
 
+		if (rand() % 3 == 0)
+		{
+			Tree_Leaf = id_birch_leaves;
+
+			Tree_Log = id_birch_log;
+		}
+		else
+		{
+			Tree_Leaf = id_oak_leaves;
+
+			Tree_Log = id_oak_log;
+		}
