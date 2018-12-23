@@ -559,3 +559,77 @@ int main(int argc, char** argv)
 			// Fog uses a special algorithm to calculate it's far distance.
 
 			glUniform1f(glGetUniformLocation(Block_Program, "Fog_Distance"), pow(sqrt(float(The_World->X_Res * The_World->Z_Res)), 1.75f));
+
+			// Block destruction.
+
+			if (false)
+			{
+				float Px = -Player_X;
+				float Py = -Player_Y;
+				float Pz = -Player_Z;
+
+				float Ix = -sin(Radians(Look_Y)) * 0.2f;
+
+				float Iy = -tan(Radians(Look_X)) * 0.2f;
+
+				float Iz = -cos(Radians(Look_Y)) * 0.2f;
+
+				while (true)
+				{
+					// Check for collisions.
+
+					if (Voxel_Type(The_World->Get_Safe(int(Px), int(Py), int(Pz))) != id_air)
+					{
+						The_Segmenter->Set_Safe_Unlit(int(Px), int(Py), int(Pz), id_air);
+					}
+
+					// Increment ray position.
+
+					Px += Ix;
+					Py += Iy;
+					Pz += Iz;
+
+					// Abort when too far.
+
+					if ((Px + Player_X) * (Px + Player_X) + (Py + Player_Y) * (Py + Player_Y) + (Pz + Player_Z) * (Pz + Player_Z) > 16.0f * 16.0f)
+					{
+						break;
+					}
+				}
+			}
+
+			if (Main_Mouse_L)
+			{
+				for (int X = -3; X <= 3; X++)
+				{
+					for (int Y = -3; Y <= 3; Y++)
+					{
+						for (int Z = -3; Z <= 3; Z++)
+						{
+							if (X * X + Y * Y + Z * Z < 3 * 3)
+							{
+								The_Segmenter->Set_Safe_Unlit(-Player_X + X, -Player_Y + Y, -Player_Z + Z, Block_ID(id_white_wool + Player_Selection));
+							}
+						}
+					}
+				}
+			}
+			else if (Main_Mouse_R)
+			{
+				for (int X = -40; X <= 40; X++)
+				{
+					for (int Y = -40; Y <= 40; Y++)
+					{
+						for (int Z = -40; Z <= 40; Z++)
+						{
+							if (X * X + Y * Y + Z * Z < 40 * 40)
+							{
+								if (rand() % 2)
+								{
+									The_Segmenter->Set_Safe_Unlit(-Player_X + X, -Player_Y + Y, -Player_Z + Z, id_air);
+								}
+							}
+						}
+					}
+				}
+			}
