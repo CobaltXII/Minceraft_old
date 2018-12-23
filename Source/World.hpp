@@ -200,3 +200,38 @@ void Destroy_World(World* To_Be_Annihilated)
 	free(To_Be_Annihilated->Voxels);
 }
 
+// Use the standard world generation algorithm to generate a world.
+
+void Generate_World(World* Out, unsigned int Seed)
+{
+	// We will use rand() to get pure random noise, and use a Perlin object to get smooth noise
+	// for terrain.
+
+	srand(Seed);
+
+	Perlin Noise = Perlin(Seed);
+
+	// Generate the base terrain. Basically, this uses 3-dimensional Perlin noise to generate a
+	// terrain-like shape. Anything that is inside this shape is set to stone.
+
+	float Frequency = 4.0f;
+
+	for (float X = 0; X < Out->X_Res; X++)
+	{
+		for (float Y = 0; Y < Out->Y_Res; Y++)
+		{
+			for (float Z = 0; Z < Out->Z_Res; Z++)
+			{
+				float Xf = X / float(Out->X_Res);
+				float Yf = Y / float(Out->Y_Res);
+				float Zf = Z / float(Out->Z_Res);
+
+				float Yn = Yf + Noise.Octave_Noise(Xf * Frequency, Yf * Frequency, Zf * Frequency, 4) * 0.6f;
+
+				if (Yn >= 0.5f)
+				{
+					Out->Set(int(X), int(Y), int(Z), Make_Voxel(id_stone));
+				}
+			}
+		}
+	}
