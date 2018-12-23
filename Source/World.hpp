@@ -64,3 +64,11 @@ struct World
 
 		return Voxels[X + X_Res * (Y + Y_Res * Z)];
 	}
+
+	// Set the value of a block in the world.
+
+	inline void Set(unsigned int X, unsigned int Y, unsigned int Z, Voxel Value)
+	{
+		Voxels[X + X_Res * (Y + Y_Res * Z)] = Value;
+	}
+
