@@ -31,3 +31,6 @@
 #include "Matrix.hpp"
 #include "Matrix.cpp"
 
+#include "Crosshair.hpp"
+#include "Crosshair.cpp"
+
