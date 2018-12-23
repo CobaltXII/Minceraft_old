@@ -173,3 +173,88 @@ std::vector<std::string> Block_ID_To_String =
 
 	"black_wool"
 };
+
+// Conversion from Block_ID to std::string for in-game text.
+
+std::vector<std::string> Block_ID_To_Block_Name =
+{
+	"Air",
+
+	"Bedrock",
+
+	"Stone",
+
+	"Cobblestone",
+
+	"Dirt",
+
+	"Grass",
+
+	"Sand",
+
+	"Gravel",
+
+	"Brick",
+
+	"Bookshelf",
+
+	"Oak Log",
+
+	"Oak Planks",
+
+	"Oak Leaves",
+
+	"Birch Log",
+
+	"Birch Planks",
+
+	"Birch Leaves",
+
+	"Red Mushroom Block",
+
+	"Brown Mushroom Block",
+
+	"Mushroom Stem",
+
+	"Coal Ore",
+
+	"Iron Ore",
+
+	"Gold Ore",
+
+	"Diamond Ore",
+
+	"Emerald Ore",
+
+	"White Wool",
+
+	"Orange Wool",
+
+	"Magenta Wool",
+
+	"Light Blue Wool",
+
+	"Yellow Wool",
+
+	"Lime Wool",
+
+	"Pink Wool",
+
+	"Gray Wool",
+
+	"Light Gray Wool",
+
+	"Cyan Wool",
+
+	"Purple Wool",
+
+	"Blue Wool",
+
+	"Brown Wool",
+
+	"Green Wool",
+
+	"Red Wool",
+
+	"Black Wool"
+};
