@@ -79,3 +79,16 @@ void main()
 		Fragment_Color.x += Temperature;
 		Fragment_Color.z -= Temperature;
     }
+    else if (Effect == 6)
+    {
+    	// Cool grayscale.
+
+    	float Grayscale = Fragment_Color.x * 0.2126f + Fragment_Color.y * 0.7152f + Fragment_Color.z * 0.0722f;
+
+		Fragment_Color = vec4(Grayscale, Grayscale, Grayscale, 1.0f);
+
+		float Temperature = -20.0f / 255.0f;
+
+		Fragment_Color.x += Temperature;
+		Fragment_Color.z -= Temperature;
+    }
