@@ -350,3 +350,59 @@ int main(int argc, char** argv)
 					Main_Mouse_R = false;
 				}
 			}
+			else if (e.type == SDL_KEYDOWN)
+			{
+				// A key was pressed.
+
+				SDL_Keycode Key = e.key.keysym.sym;
+
+				if (Key == SDLK_ESCAPE)
+				{
+					if (Main_Mouse_Relative)
+					{
+						SDL_SetRelativeMouseMode(SDL_FALSE);
+
+						Main_Mouse_Relative = false;
+					}
+					else
+					{
+						Main_Running = false;
+					}
+				}
+				else if (Key == SDLK_1)
+				{
+					Player_Selection = 0;
+				}
+				else if (Key == SDLK_2)
+				{
+					Player_Selection = 1;
+				}
+				else if (Key == SDLK_3)
+				{
+					Player_Selection = 2;
+				}
+				else if (Key == SDLK_4)
+				{
+					Player_Selection = 3;
+				}
+				else if (Key == SDLK_5)
+				{
+					Player_Selection = 4;
+				}
+				else if (Key == SDLK_6)
+				{
+					Player_Selection = 5;
+				}
+				else if (Key == SDLK_7)
+				{
+					Player_Selection = 6;
+				}
+				else if (Key == SDLK_8)
+				{
+					Player_Selection = 7;
+				}
+				else if (Key == SDLK_9)
+				{
+					Player_Selection = 8;
+				}
+			}
