@@ -28,3 +28,6 @@
 #include "Segmenter.hpp"
 #include "Segmenter.cpp"
 
+#include "Matrix.hpp"
+#include "Matrix.cpp"
+
