@@ -28,3 +28,33 @@ struct Chunk
 	// modified since the last meshification. If true, this chunk is regenerated.
 
 	bool Modified;
+
+	Chunk
+	(
+		unsigned int _Vertex_Array_Size_In_Floats,
+
+		unsigned int _X, 
+		unsigned int _Y, 
+		unsigned int _Z, 
+
+		unsigned int _X_Res, 
+		unsigned int _Y_Res, 
+		unsigned int _Z_Res
+	)
+	{
+		Live = true;
+
+		Modified = false;
+
+		X = _X;
+		Y = _Y;
+		Z = _Z;
+
+		X_Res = _X_Res;
+		Y_Res = _Y_Res;
+		Z_Res = _Z_Res;
+		
+		Vertex_Array = 0;
+
+		Vertex_Array_Size_In_Floats = _Vertex_Array_Size_In_Floats;
+	}
