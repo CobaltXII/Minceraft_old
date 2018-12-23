@@ -198,3 +198,27 @@ Final_Sprite* Generate_Test_Sprite()
 	return My_Final_Sprite;
 }
 
+// Generate a rectangle sprite (in screen coordinates).
+
+Final_Sprite* Generate_Rectangle_Sprite(int X_tl, int Y_tl, int X_br, int Y_br, int X_Res, int Y_Res, GLuint Texture)
+{
+	Managed_Sprite* My_Managed_Sprite = Allocate_Sprite(6);
+
+	float X_tlf = X_tl / float(X_Res) * 2.0f - 1.0f;
+	float Y_tlf = Y_tl / float(Y_Res) * 2.0f - 1.0f;
+
+	float X_brf = X_br / float(X_Res) * 2.0f - 1.0f;
+	float Y_brf = Y_br / float(Y_Res) * 2.0f - 1.0f;
+
+	Write_Vertex(My_Managed_Sprite, X_tlf, -Y_tlf, 0.0f, 0.0f);
+	Write_Vertex(My_Managed_Sprite, X_tlf, -Y_brf, 0.0f, 1.0f);
+	Write_Vertex(My_Managed_Sprite, X_brf, -Y_brf, 1.0f, 1.0f);
+
+	Write_Vertex(My_Managed_Sprite, X_tlf, -Y_tlf, 0.0f, 0.0f);
+	Write_Vertex(My_Managed_Sprite, X_brf, -Y_brf, 1.0f, 1.0f);
+	Write_Vertex(My_Managed_Sprite, X_brf, -Y_tlf, 1.0f, 0.0f);
+
+	Final_Sprite* My_Final_Sprite = Make_Final_Sprite(My_Managed_Sprite, Texture);
+
+	return My_Final_Sprite;
+}
