@@ -32,7 +32,14 @@ uniform float Time;
 
 void main()
 {
-	Fragment_Color = texture(Block_Texture_Array, Texture_Coordinates);
+	if (Texture_Coordinates.z == 43.0f)
+	{
+		Fragment_Color = texture(Block_Texture_Array, vec3(Texture_Coordinates.xy, 43.0f + mod(int(Time * 16.0f), 31.0f)));
+	}
+	else
+	{
+		Fragment_Color = texture(Block_Texture_Array, Texture_Coordinates);
+	}
 
 	if (Fragment_Color.w == 0.0f)
 	{
