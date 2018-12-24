@@ -84,6 +84,22 @@ struct World
 		Voxels[X + X_Res * (Y + Y_Res * Z)] = Value;
 	}
 
+	// Set the value of a block in the world, if the type of the current block at the same 
+	// position is air.
+
+	inline void Set_Safe_If_Air(unsigned int X, unsigned int Y, unsigned int Z, Voxel Value)
+	{
+		if (X < 0 || Y < 0 || Z < 0 || X > X_Res - 1 || Y > Y_Res - 1 || Z > Z_Res - 1)
+		{
+			return;
+		}
+
+		if (Voxel_Type(Voxels[X + X_Res * (Y + Y_Res * Z)]) == id_air)
+		{
+			Voxels[X + X_Res * (Y + Y_Res * Z)] = Value;
+		}
+	}
+
 	// Check if a point is out of bounds.
 
 	inline bool Out_Of_Bounds(unsigned int X, unsigned int Y, unsigned int Z)
