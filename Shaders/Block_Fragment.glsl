@@ -24,6 +24,10 @@ in float Vertex_Distance;
 
 out vec4 Fragment_Color;
 
+// Timestamp.
+
+uniform float Time;
+
 // Main shader code.
 
 void main()
