@@ -74,6 +74,8 @@ void Make_Block_Face_Info()
 
 		Make_Face_Info_All(Texture_Name_To_Layer["bedrock"]),
 
+		Make_Face_Info_All(Texture_Name_To_Layer["water_0"]),
+
 		Make_Face_Info_All(Texture_Name_To_Layer["stone"]),
 
 		Make_Face_Info_All(Texture_Name_To_Layer["cobblestone"]),
@@ -148,9 +150,7 @@ void Make_Block_Face_Info()
 
 		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_red"]),
 
-		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_black"]),
-
-		Make_Face_Info_All(Texture_Name_To_Layer["water_0"])
+		Make_Face_Info_All(Texture_Name_To_Layer["wool_colored_black"])
 	};
 }
 
