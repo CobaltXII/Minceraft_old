@@ -307,6 +307,10 @@ void Generate_World(World* Out, unsigned int Seed)
 					{
 						Out->Set(X, Y, Z, Make_Voxel(id_water));
 					}
+					else if (Voxel_Type(Out->Get(X, Y, Z)) == id_grass)
+					{
+						Out->Set(X, Y, Z, Make_Voxel(id_sand));
+					}
 				}
 			}
 		}
