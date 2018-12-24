@@ -166,19 +166,6 @@ int main(int argc, char** argv)
 
 	glFrontFace(GL_CW);
 
-	// Enable alpha blending.
-
-	if (false)
-	{
-		// Actually, we don't need alpha blending right now because textures currently only have
-		// completely opaque or completely transparent texels. Completely transparent texels are
-		// discarded by the fragment shader.
-
-		glEnable(GL_BLEND);
-
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	}
-
 	// Get the dimensions and aspect ratio of the OpenGL context.
 
 	SDL_GL_GetDrawableSize(Main_Window, &Context_X_Resolution, &Context_Y_Resolution);
@@ -534,6 +521,12 @@ int main(int argc, char** argv)
 			// Enable backface culling.
 
 			glEnable(GL_CULL_FACE);
+
+			// Enable alpha blending.
+
+			glEnable(GL_BLEND);
+
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 			// Enable the block shader program.
 
