@@ -86,6 +86,8 @@ enum Block_ID
 
 	id_black_wool,
 
+	id_water,
+
 	id_last
 };
 
@@ -171,6 +173,8 @@ std::vector<std::string> Block_ID_To_String =
 
 	"red_wool",
 
+	"water",
+
 	"black_wool"
 };
 
@@ -255,6 +259,8 @@ std::vector<std::string> Block_ID_To_Block_Name =
 	"Green Wool",
 
 	"Red Wool",
+
+	"Water",
 
 	"Black Wool"
 };
