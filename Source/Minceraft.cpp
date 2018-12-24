@@ -601,7 +601,7 @@ int main(int argc, char** argv)
 						{
 							if (X * X + Y * Y + Z * Z < 3 * 3)
 							{
-								The_Segmenter->Set_Safe_Unlit(-Player_X + X, -Player_Y + Y, -Player_Z + Z, Block_ID(id_white_wool + Player_Selection));
+								The_Segmenter->Set_Safe_Unlit(-Player_X + X, -Player_Y + Y, -Player_Z + Z, id_white_wool);
 							}
 						}
 					}
@@ -640,6 +640,8 @@ int main(int argc, char** argv)
 						if (The_Chunk->Modified)
 						{
 							The_Chunk->Destroy();
+
+							Update_Subset(The_World, The_Chunk->X, The_Chunk->Y, The_Chunk->Z, The_Chunk->X_Res, The_Chunk->Y_Res, The_Chunk->Z_Res);
 
 							Propagate_Skylight(The_World, The_Chunk->X, The_Chunk->Y, The_Chunk->Z, The_Chunk->X_Res, The_Chunk->Y_Res, The_Chunk->Z_Res);
 
@@ -743,7 +745,7 @@ int main(int argc, char** argv)
 		// Draw the heads-up-display.
 
 		{
-			Draw_Hotbar(Main_X_Resolution, Main_Y_Resolution, Context_X_Resolution, Context_Y_Resolution, Player_Selection % 9, Block_Texture_Array, 2);
+			// Draw_Hotbar(Main_X_Resolution, Main_Y_Resolution, Context_X_Resolution, Context_Y_Resolution, Player_Selection % 9, Block_Texture_Array, 2);
 		}
 
 		// The following code handles frame buffer rendering.
