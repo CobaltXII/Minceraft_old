@@ -213,3 +213,12 @@ void Render_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Fac
 
 	free(Vertices);
 }
+
+// Render a string of text with a shadow.
+
+inline void Render_Shadowed_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Factor, Font_Color Color_Index = white)
+{
+	Render_Text(String, X + Factor, Y + Factor, X_Res, Y_Res, Factor, Color_Index, true);
+
+	Render_Text(String, X, Y, X_Res, Y_Res, Factor, Color_Index, false);
+}
