@@ -293,6 +293,25 @@ void Generate_World(World* Out, unsigned int Seed)
 		}
 	}
 
+	// Flood fill water in from the edges.
+
+	for (int X = 0; X < Out->X_Res; X++)
+	{
+		for (int Y = 0; Y < Out->Y_Res; Y++)
+		{
+			for (int Z = 0; Z < Out->Z_Res; Z++)
+			{
+				if (float(Y) / float(Out->Y_Res) > 0.5f)
+				{
+					if (Voxel_Type(Out->Get(X, Y, Z)) == id_air)
+					{
+						Out->Set(X, Y, Z, Make_Voxel(id_water));
+					}
+				}
+			}
+		}
+	}
+
 	// Add some ores. Basically chooses a bunch of random spots, and gets all the points in a 
 	// deformed sphere around that point. For each of those points that are stone, set them to the
 	// ore.
