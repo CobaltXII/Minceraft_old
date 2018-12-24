@@ -45,7 +45,7 @@ std::string Byte_Format(unsigned int Bytes)
 
 // Current Minceraft version.
 
-std::string Minceraft_Version = "0.0.59";
+std::string Minceraft_Version = "0.0.64";
 
 // Generate the version string for this build of Minceraft.
 
