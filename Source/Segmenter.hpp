@@ -142,3 +142,45 @@ Segmenter* Make_Segmenter(World* A_World)
 
 	return The_Segmenter;
 }
+
+// Update a subset of a world.
+
+void Update_Subset
+(
+	Segmenter* Input, 
+
+	unsigned int X, 
+	unsigned int Y, 
+	unsigned int Z, 
+
+	unsigned int X_Res, 
+	unsigned int Y_Res, 
+	unsigned int Z_Res
+)
+{
+	unsigned int Fx = X + X_Res;
+	unsigned int Fy = Y + Y_Res;
+	unsigned int Fz = Z + Z_Res;
+
+	for (unsigned int Cx = X; Cx < Fx; Cx++)
+	{
+		for (unsigned int Cy = Y; Cy < Fy; Cy++)
+		{
+			for (unsigned int Cz = Z; Cz < Fz; Cz++)
+			{
+				// Water flooding.
+
+				if (Voxel_Type(Input->The_World->Get(Cx, Cy, Cz)) == id_water)
+				{
+					Input->Set_Safe_If_Air(Cx + 1, Cy, Cz, Make_Voxel(id_water));
+					Input->Set_Safe_If_Air(Cx - 1, Cy, Cz, Make_Voxel(id_water));
+
+					Input->Set_Safe_If_Air(Cx, Cy, Cz + 1, Make_Voxel(id_water));
+					Input->Set_Safe_If_Air(Cx, Cy, Cz - 1, Make_Voxel(id_water));
+
+					Input->Set_Safe_If_Air(Cx, Cy + 1, Cz, Make_Voxel(id_water));
+				}
+			}
+		}
+	}
+}
