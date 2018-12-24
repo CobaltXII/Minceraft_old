@@ -645,7 +645,7 @@ int main(int argc, char** argv)
 						{
 							The_Chunk->Destroy();
 
-							Update_Subset(The_World, The_Chunk->X, The_Chunk->Y, The_Chunk->Z, The_Chunk->X_Res, The_Chunk->Y_Res, The_Chunk->Z_Res);
+							Update_Subset(The_Segmenter, The_Chunk->X, The_Chunk->Y, The_Chunk->Z, The_Chunk->X_Res, The_Chunk->Y_Res, The_Chunk->Z_Res);
 
 							Propagate_Skylight(The_World, The_Chunk->X, The_Chunk->Y, The_Chunk->Z, The_Chunk->X_Res, The_Chunk->Y_Res, The_Chunk->Z_Res);
 
