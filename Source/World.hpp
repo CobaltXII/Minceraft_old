@@ -887,7 +887,7 @@ inline bool Transparent(Block_ID Type)
 	return (Type == id_air || Type == id_oak_leaves || Type == id_birch_leaves || Type == id_water);
 }
 
-// Convert a subset of a world into a mesh, and store it in World_Mesh_Target.
+// Convert a subset of a world into a mesh.
 
 void World_Subset_To_Mesh
 (
@@ -1074,82 +1074,193 @@ void World_Subset_To_Mesh
 					}
 				}
 
-				if (Visible_Top)
+				if (Block_Type == id_water)
 				{
-					// Top face.
+					float Top = 0.0f;
 
-					*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Top; *(P++) = Block_Lighting;
-					*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 1.0f; *(P++) = Layer_Top; *(P++) = Block_Lighting;
-					*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Top; *(P++) = Block_Lighting;
+					if (Cy != 0)
+					{
+						// This needs to be fixed, glitches happen on corner cases.
 
-					*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Top; *(P++) = Block_Lighting;
-					*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Top; *(P++) = Block_Lighting;
-					*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 0.0f; *(P++) = Layer_Top; *(P++) = Block_Lighting;
+						if (Voxel_Type(Input->Get(Cx, Cy - 1, Cz)) == id_air)
+						{
+							Top = 1.0f / 16.0f;
+						}
+					}
+
+					// Render visible faces.
+
+					if (Visible_Top)
+					{
+						// Top face.
+
+						*(W++) = 1.0f + Cx; *(W++) = Top + Cy; *(W++) = 1.0f + Cz; *(W++) = 1.0f; *(W++) = 0.0f; *(W++) = Layer_Top; *(W++) = Block_Lighting;
+						*(W++) = 0.0f + Cx; *(W++) = Top + Cy; *(W++) = 1.0f + Cz; *(W++) = 1.0f; *(W++) = 1.0f; *(W++) = Layer_Top; *(W++) = Block_Lighting;
+						*(W++) = 0.0f + Cx; *(W++) = Top + Cy; *(W++) = 0.0f + Cz; *(W++) = 0.0f; *(W++) = 1.0f; *(W++) = Layer_Top; *(W++) = Block_Lighting;
+
+						*(W++) = 1.0f + Cx; *(W++) = Top + Cy; *(W++) = 1.0f + Cz; *(W++) = 1.0f; *(W++) = 0.0f; *(W++) = Layer_Top; *(W++) = Block_Lighting;
+						*(W++) = 0.0f + Cx; *(W++) = Top + Cy; *(W++) = 0.0f + Cz; *(W++) = 0.0f; *(W++) = 1.0f; *(W++) = Layer_Top; *(W++) = Block_Lighting;
+						*(W++) = 1.0f + Cx; *(W++) = Top + Cy; *(W++) = 0.0f + Cz; *(W++) = 0.0f; *(W++) = 0.0f; *(W++) = Layer_Top; *(W++) = Block_Lighting;
+					}
+
+					if (Visible_Bottom)
+					{
+						// Bottom face.
+
+						*(W++) = 0.0f + Cx; *(W++) = 1.0f + Cy; *(W++) = 0.0f + Cz; *(W++) = 1.0f; *(W++) = 0.0f; *(W++) = Layer_Bottom; *(W++) = Block_Lighting;
+						*(W++) = 0.0f + Cx; *(W++) = 1.0f + Cy; *(W++) = 1.0f + Cz; *(W++) = 1.0f; *(W++) = 1.0f; *(W++) = Layer_Bottom; *(W++) = Block_Lighting;
+						*(W++) = 1.0f + Cx; *(W++) = 1.0f + Cy; *(W++) = 1.0f + Cz; *(W++) = 0.0f; *(W++) = 1.0f; *(W++) = Layer_Bottom; *(W++) = Block_Lighting;
+
+						*(W++) = 0.0f + Cx; *(W++) = 1.0f + Cy; *(W++) = 0.0f + Cz; *(W++) = 1.0f; *(W++) = 0.0f; *(W++) = Layer_Bottom; *(W++) = Block_Lighting;
+						*(W++) = 1.0f + Cx; *(W++) = 1.0f + Cy; *(W++) = 1.0f + Cz; *(W++) = 0.0f; *(W++) = 1.0f; *(W++) = Layer_Bottom; *(W++) = Block_Lighting;
+						*(W++) = 1.0f + Cx; *(W++) = 1.0f + Cy; *(W++) = 0.0f + Cz; *(W++) = 0.0f; *(W++) = 0.0f; *(W++) = Layer_Bottom; *(W++) = Block_Lighting;
+					}
+
+					if (Visible_Left)
+					{
+						// Left face.
+
+						*(W++) = 0.0f + Cx; *(W++) = Top + Cy; *(W++) = 1.0f + Cz; *(W++) = 1.0f; *(W++) = 0.0f; *(W++) = Layer_Left; *(W++) = Block_Lighting_Left;
+
+						*(W++) = 0.0f + Cx; *(W++) = 1.0f + Cy; *(W++) = 1.0f + Cz; *(W++) = 1.0f; *(W++) = 1.0f; *(W++) = Layer_Left; *(W++) = Block_Lighting_Left;
+						*(W++) = 0.0f + Cx; *(W++) = 1.0f + Cy; *(W++) = 0.0f + Cz; *(W++) = 0.0f; *(W++) = 1.0f; *(W++) = Layer_Left; *(W++) = Block_Lighting_Left;
+
+						*(W++) = 0.0f + Cx; *(W++) = Top + Cy; *(W++) = 1.0f + Cz; *(W++) = 1.0f; *(W++) = 0.0f; *(W++) = Layer_Left; *(W++) = Block_Lighting_Left;
+
+						*(W++) = 0.0f + Cx; *(W++) = 1.0f + Cy; *(W++) = 0.0f + Cz; *(W++) = 0.0f; *(W++) = 1.0f; *(W++) = Layer_Left; *(W++) = Block_Lighting_Left;
+
+						*(W++) = 0.0f + Cx; *(W++) = Top + Cy; *(W++) = 0.0f + Cz; *(W++) = 0.0f; *(W++) = 0.0f; *(W++) = Layer_Left; *(W++) = Block_Lighting_Left;
+					}
+
+					if (Visible_Right)
+					{
+						// Right face.
+
+						*(W++) = 1.0f + Cx; *(W++) = Top + Cy; *(W++) = 0.0f + Cz; *(W++) = 1.0f; *(W++) = 0.0f; *(W++) = Layer_Right; *(W++) = Block_Lighting_Left;
+
+						*(W++) = 1.0f + Cx; *(W++) = 1.0f + Cy; *(W++) = 0.0f + Cz; *(W++) = 1.0f; *(W++) = 1.0f; *(W++) = Layer_Right; *(W++) = Block_Lighting_Left;
+						*(W++) = 1.0f + Cx; *(W++) = 1.0f + Cy; *(W++) = 1.0f + Cz; *(W++) = 0.0f; *(W++) = 1.0f; *(W++) = Layer_Right; *(W++) = Block_Lighting_Left;
+
+						*(W++) = 1.0f + Cx; *(W++) = Top + Cy; *(W++) = 0.0f + Cz; *(W++) = 1.0f; *(W++) = 0.0f; *(W++) = Layer_Right; *(W++) = Block_Lighting_Left;
+
+						*(W++) = 1.0f + Cx; *(W++) = 1.0f + Cy; *(W++) = 1.0f + Cz; *(W++) = 0.0f; *(W++) = 1.0f; *(W++) = Layer_Right; *(W++) = Block_Lighting_Left;
+
+						*(W++) = 1.0f + Cx; *(W++) = Top + Cy; *(W++) = 1.0f + Cz; *(W++) = 0.0f; *(W++) = 0.0f; *(W++) = Layer_Right; *(W++) = Block_Lighting_Left;
+					}
+
+					if (Visible_Front)
+					{
+						// Front face.
+
+						*(W++) = 1.0f + Cx; *(W++) = Top + Cy; *(W++) = 1.0f + Cz; *(W++) = 1.0f; *(W++) = 0.0f; *(W++) = Layer_Front; *(W++) = Block_Lighting_Front;
+
+						*(W++) = 1.0f + Cx; *(W++) = 1.0f + Cy; *(W++) = 1.0f + Cz; *(W++) = 1.0f; *(W++) = 1.0f; *(W++) = Layer_Front; *(W++) = Block_Lighting_Front;
+						*(W++) = 0.0f + Cx; *(W++) = 1.0f + Cy; *(W++) = 1.0f + Cz; *(W++) = 0.0f; *(W++) = 1.0f; *(W++) = Layer_Front; *(W++) = Block_Lighting_Front;
+
+						*(W++) = 1.0f + Cx; *(W++) = Top + Cy; *(W++) = 1.0f + Cz; *(W++) = 1.0f; *(W++) = 0.0f; *(W++) = Layer_Front; *(W++) = Block_Lighting_Front;
+
+						*(W++) = 0.0f + Cx; *(W++) = 1.0f + Cy; *(W++) = 1.0f + Cz; *(W++) = 0.0f; *(W++) = 1.0f; *(W++) = Layer_Front; *(W++) = Block_Lighting_Front;
+
+						*(W++) = 0.0f + Cx; *(W++) = Top + Cy; *(W++) = 1.0f + Cz; *(W++) = 0.0f; *(W++) = 0.0f; *(W++) = Layer_Front; *(W++) = Block_Lighting_Front;
+					}
+
+					if (Visible_Back)
+					{
+						// Back face.
+
+						*(W++) = 0.0f + Cx; *(W++) = Top + Cy; *(W++) = 0.0f + Cz; *(W++) = 1.0f; *(W++) = 0.0f; *(W++) = Layer_Back; *(W++) = Block_Lighting_Front;
+
+						*(W++) = 0.0f + Cx; *(W++) = 1.0f + Cy; *(W++) = 0.0f + Cz; *(W++) = 1.0f; *(W++) = 1.0f; *(W++) = Layer_Back; *(W++) = Block_Lighting_Front;
+						*(W++) = 1.0f + Cx; *(W++) = 1.0f + Cy; *(W++) = 0.0f + Cz; *(W++) = 0.0f; *(W++) = 1.0f; *(W++) = Layer_Back; *(W++) = Block_Lighting_Front;
+
+						*(W++) = 0.0f + Cx; *(W++) = Top + Cy; *(W++) = 0.0f + Cz; *(W++) = 1.0f; *(W++) = 0.0f; *(W++) = Layer_Back; *(W++) = Block_Lighting_Front;
+
+						*(W++) = 1.0f + Cx; *(W++) = 1.0f + Cy; *(W++) = 0.0f + Cz; *(W++) = 0.0f; *(W++) = 1.0f; *(W++) = Layer_Back; *(W++) = Block_Lighting_Front;
+
+						*(W++) = 1.0f + Cx; *(W++) = Top + Cy; *(W++) = 0.0f + Cz; *(W++) = 0.0f; *(W++) = 0.0f; *(W++) = Layer_Back; *(W++) = Block_Lighting_Front;
+					}
 				}
-
-				if (Visible_Bottom)
+				else
 				{
-					// Bottom face.
+					// Render visible faces.
 
-					*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Bottom; *(P++) = Block_Lighting;
-					*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 1.0f; *(P++) = Layer_Bottom; *(P++) = Block_Lighting;
-					*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Bottom; *(P++) = Block_Lighting;
+					if (Visible_Top)
+					{
+						// Top face.
 
-					*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Bottom; *(P++) = Block_Lighting;
-					*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Bottom; *(P++) = Block_Lighting;
-					*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 0.0f; *(P++) = Layer_Bottom; *(P++) = Block_Lighting;
-				}
+						*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Top; *(P++) = Block_Lighting;
+						*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 1.0f; *(P++) = Layer_Top; *(P++) = Block_Lighting;
+						*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Top; *(P++) = Block_Lighting;
 
-				if (Visible_Left)
-				{
-					// Left face.
+						*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Top; *(P++) = Block_Lighting;
+						*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Top; *(P++) = Block_Lighting;
+						*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 0.0f; *(P++) = Layer_Top; *(P++) = Block_Lighting;
+					}
 
-					*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Left; *(P++) = Block_Lighting_Left;
-					*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 1.0f; *(P++) = Layer_Left; *(P++) = Block_Lighting_Left;
-					*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Left; *(P++) = Block_Lighting_Left;
+					if (Visible_Bottom)
+					{
+						// Bottom face.
 
-					*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Left; *(P++) = Block_Lighting_Left;
-					*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Left; *(P++) = Block_Lighting_Left;
-					*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 0.0f; *(P++) = Layer_Left; *(P++) = Block_Lighting_Left;
-				}
+						*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Bottom; *(P++) = Block_Lighting;
+						*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 1.0f; *(P++) = Layer_Bottom; *(P++) = Block_Lighting;
+						*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Bottom; *(P++) = Block_Lighting;
 
-				if (Visible_Right)
-				{
-					// Right face.
+						*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Bottom; *(P++) = Block_Lighting;
+						*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Bottom; *(P++) = Block_Lighting;
+						*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 0.0f; *(P++) = Layer_Bottom; *(P++) = Block_Lighting;
+					}
 
-					*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Right; *(P++) = Block_Lighting_Left;
-					*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 1.0f; *(P++) = Layer_Right; *(P++) = Block_Lighting_Left;
-					*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Right; *(P++) = Block_Lighting_Left;
+					if (Visible_Left)
+					{
+						// Left face.
 
-					*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Right; *(P++) = Block_Lighting_Left;
-					*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Right; *(P++) = Block_Lighting_Left;
-					*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 0.0f; *(P++) = Layer_Right; *(P++) = Block_Lighting_Left;
-				}
+						*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Left; *(P++) = Block_Lighting_Left;
+						*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 1.0f; *(P++) = Layer_Left; *(P++) = Block_Lighting_Left;
+						*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Left; *(P++) = Block_Lighting_Left;
 
-				if (Visible_Front)
-				{
-					// Front face.
+						*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Left; *(P++) = Block_Lighting_Left;
+						*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Left; *(P++) = Block_Lighting_Left;
+						*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 0.0f; *(P++) = Layer_Left; *(P++) = Block_Lighting_Left;
+					}
 
-					*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Front; *(P++) = Block_Lighting_Front;
-					*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 1.0f; *(P++) = Layer_Front; *(P++) = Block_Lighting_Front;
-					*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Front; *(P++) = Block_Lighting_Front;
+					if (Visible_Right)
+					{
+						// Right face.
 
-					*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Front; *(P++) = Block_Lighting_Front;
-					*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Front; *(P++) = Block_Lighting_Front;
-					*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 0.0f; *(P++) = Layer_Front; *(P++) = Block_Lighting_Front;
-				}
+						*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Right; *(P++) = Block_Lighting_Left;
+						*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 1.0f; *(P++) = Layer_Right; *(P++) = Block_Lighting_Left;
+						*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Right; *(P++) = Block_Lighting_Left;
 
-				if (Visible_Back)
-				{
-					// Back face.
+						*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Right; *(P++) = Block_Lighting_Left;
+						*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Right; *(P++) = Block_Lighting_Left;
+						*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 0.0f; *(P++) = Layer_Right; *(P++) = Block_Lighting_Left;
+					}
 
-					*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Back; *(P++) = Block_Lighting_Front;
-					*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 1.0f; *(P++) = Layer_Back; *(P++) = Block_Lighting_Front;
-					*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Back; *(P++) = Block_Lighting_Front;
+					if (Visible_Front)
+					{
+						// Front face.
 
-					*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Back; *(P++) = Block_Lighting_Front;
-					*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Back; *(P++) = Block_Lighting_Front;
-					*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 0.0f; *(P++) = Layer_Back; *(P++) = Block_Lighting_Front;
+						*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Front; *(P++) = Block_Lighting_Front;
+						*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 1.0f; *(P++) = Layer_Front; *(P++) = Block_Lighting_Front;
+						*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Front; *(P++) = Block_Lighting_Front;
+
+						*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Front; *(P++) = Block_Lighting_Front;
+						*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Front; *(P++) = Block_Lighting_Front;
+						*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 1.0f + Cz; *(P++) = 0.0f; *(P++) = 0.0f; *(P++) = Layer_Front; *(P++) = Block_Lighting_Front;
+					}
+
+					if (Visible_Back)
+					{
+						// Back face.
+
+						*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Back; *(P++) = Block_Lighting_Front;
+						*(P++) = 0.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 1.0f; *(P++) = Layer_Back; *(P++) = Block_Lighting_Front;
+						*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Back; *(P++) = Block_Lighting_Front;
+
+						*(P++) = 0.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 1.0f; *(P++) = 0.0f; *(P++) = Layer_Back; *(P++) = Block_Lighting_Front;
+						*(P++) = 1.0f + Cx; *(P++) = 1.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 1.0f; *(P++) = Layer_Back; *(P++) = Block_Lighting_Front;
+						*(P++) = 1.0f + Cx; *(P++) = 0.0f + Cy; *(P++) = 0.0f + Cz; *(P++) = 0.0f; *(P++) = 0.0f; *(P++) = Layer_Back; *(P++) = Block_Lighting_Front;
+					}
 				}
 			}	
 		}	
