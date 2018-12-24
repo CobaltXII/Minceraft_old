@@ -987,6 +987,11 @@ void World_Subset_To_Mesh
 					Block_ID Block_Other = Voxel_Type(Input->Get(Cx, Cy - 1, Cz));
 
 					Visible_Top = Transparent(Block_Other);
+
+					if (Block_Type == id_water && Block_Other == id_water)
+					{
+						Visible_Top = false;
+					}
 				}
 
 				if (Cy == Input->Y_Res - 1)
@@ -998,6 +1003,11 @@ void World_Subset_To_Mesh
 					Block_ID Block_Other = Voxel_Type(Input->Get(Cx, Cy + 1, Cz));
 
 					Visible_Bottom = Transparent(Block_Other);
+
+					if (Block_Type == id_water && Block_Other == id_water)
+					{
+						Visible_Bottom = false;
+					}
 				}
 
 				if (Cx == 0)
@@ -1009,6 +1019,11 @@ void World_Subset_To_Mesh
 					Block_ID Block_Other = Voxel_Type(Input->Get(Cx - 1, Cy, Cz));
 
 					Visible_Left = Transparent(Block_Other);
+
+					if (Block_Type == id_water && Block_Other == id_water)
+					{
+						Visible_Left = false;
+					}
 				}
 
 				if (Cx == Input->X_Res - 1)
@@ -1020,6 +1035,11 @@ void World_Subset_To_Mesh
 					Block_ID Block_Other = Voxel_Type(Input->Get(Cx + 1, Cy, Cz));
 
 					Visible_Right = Transparent(Block_Other);
+
+					if (Block_Type == id_water && Block_Other == id_water)
+					{
+						Visible_Right = false;
+					}
 				}
 
 				if (Cz == Input->Z_Res - 1)
@@ -1031,6 +1051,11 @@ void World_Subset_To_Mesh
 					Block_ID Block_Other = Voxel_Type(Input->Get(Cx, Cy, Cz + 1));
 
 					Visible_Front = Transparent(Block_Other);
+
+					if (Block_Type == id_water && Block_Other == id_water)
+					{
+						Visible_Front = false;
+					}
 				}
 
 				if (Cz == 0)
@@ -1042,9 +1067,12 @@ void World_Subset_To_Mesh
 					Block_ID Block_Other = Voxel_Type(Input->Get(Cx, Cy, Cz - 1));
 
 					Visible_Back = Transparent(Block_Other);
-				}
 
-				// Render visible faces.
+					if (Block_Type == id_water && Block_Other == id_water)
+					{
+						Visible_Back = false;
+					}
+				}
 
 				if (Visible_Top)
 				{
