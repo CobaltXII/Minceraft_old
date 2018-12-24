@@ -988,9 +988,39 @@ void World_Subset_To_Mesh
 
 					Visible_Top = Transparent(Block_Other);
 
-					if (Block_Type == id_water && Block_Other == id_water)
+					// Glitches happen when blocks are placed above water!
+
+					if (Block_Type == id_water)
 					{
-						Visible_Top = false;
+						if (Block_Other == id_water)
+						{
+							// You don't need to draw the top face if the block above this block
+							// is also water.
+
+							Visible_Top = false;
+						}
+						else
+						{
+							// Okay, the above block is something else. Get the neighbors on the X
+							// and Z axes of the above block.
+
+							Block_ID Nbr_1 = Voxel_Type(Input->Get_Safe(Cx, Cy - 1, Cz));
+
+							Block_ID Nbr_2 = Voxel_Type(Input->Get_Safe(Cx + 1, Cy - 1, Cz));
+							Block_ID Nbr_3 = Voxel_Type(Input->Get_Safe(Cx - 1, Cy - 1, Cz));
+
+							Block_ID Nbr_4 = Voxel_Type(Input->Get_Safe(Cx, Cy - 1, Cz + 1));
+							Block_ID Nbr_5 = Voxel_Type(Input->Get_Safe(Cx, Cy - 1, Cz - 1));
+
+							// If none of them are air, you don't need to render the top face.
+							// Otherwise, you need to render the top face.
+
+							#define Good_Nbr(Nbr) (Nbr == id_air)
+
+							Visible_Top = Good_Nbr(Nbr_1) || Good_Nbr(Nbr_2) || Good_Nbr(Nbr_3) || Good_Nbr(Nbr_4) || Good_Nbr(Nbr_5);
+
+							#undef Good_Nbr
+						}
 					}
 				}
 
@@ -1082,7 +1112,7 @@ void World_Subset_To_Mesh
 					{
 						// This needs to be fixed, glitches happen on corner cases.
 
-						if (Voxel_Type(Input->Get(Cx, Cy - 1, Cz)) == id_air)
+						if (Voxel_Type(Input->Get(Cx, Cy - 1, Cz)) != id_water)
 						{
 							Top = 1.0f / 16.0f;
 						}
