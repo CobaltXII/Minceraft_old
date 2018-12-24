@@ -55,5 +55,14 @@ vec4 Font_Colors[16] = vec4[16]
 
 void main()
 {
-    Fragment_Color = texture(Screen_Texture, Texture_Coordinates) * Font_Colors[int(Font_Color)];
+    if (Font_Color > 15)
+    {
+    	Fragment_Color = texture(Screen_Texture, Texture_Coordinates) * Font_Colors[int(Font_Color - 16)];
+
+    	Fragment_Color = vec4(Fragment_Color.xyz * 0.25f, Fragment_Color.w);
+    }
+    else
+    {
+    	Fragment_Color = texture(Screen_Texture, Texture_Coordinates) * Font_Colors[int(Font_Color)];
+    }
 }
