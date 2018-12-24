@@ -150,7 +150,13 @@ void Render_Isometric(int X, int Y, int W, int H, int X_Res, int Y_Res, int Hi_X
 
 	glBindTexture(GL_TEXTURE_2D_ARRAY, Block_Texture_Array);
 
+	glEnable(GL_BLEND);
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	glDrawArrays(GL_TRIANGLES, 0, sizeof(Vertices) / sizeof(float) / 6);
+
+	glDisable(GL_BLEND);
 
 	glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
 
