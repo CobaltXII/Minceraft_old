@@ -593,13 +593,15 @@ int main(int argc, char** argv)
 
 			if (Main_Mouse_L)
 			{
-				for (int X = -3; X <= 3; X++)
+				int Radius = 3;
+
+				for (int X = -Radius; X <= Radius; X++)
 				{
-					for (int Y = -3; Y <= 3; Y++)
+					for (int Y = -Radius; Y <= Radius; Y++)
 					{
-						for (int Z = -3; Z <= 3; Z++)
+						for (int Z = -Radius; Z <= Radius; Z++)
 						{
-							if (X * X + Y * Y + Z * Z < 3 * 3)
+							if (X * X + Y * Y + Z * Z < Radius * Radius)
 							{
 								The_Segmenter->Set_Safe_Unlit(-Player_X + X, -Player_Y + Y, -Player_Z + Z, id_white_wool);
 							}
@@ -609,13 +611,15 @@ int main(int argc, char** argv)
 			}
 			else if (Main_Mouse_R)
 			{
-				for (int X = -3; X <= 3; X++)
+				int Radius = 16;
+
+				for (int X = -Radius; X <= Radius; X++)
 				{
-					for (int Y = -3; Y <= 3; Y++)
+					for (int Y = -Radius; Y <= Radius; Y++)
 					{
-						for (int Z = -3; Z <= 3; Z++)
+						for (int Z = -Radius; Z <= Radius; Z++)
 						{
-							if (X * X + Y * Y + Z * Z < 3 * 3)
+							if (X * X + Y * Y + Z * Z < Radius * Radius)
 							{
 								The_Segmenter->Set_Safe_Unlit(-Player_X + X, -Player_Y + Y, -Player_Z + Z, id_air);
 							}
