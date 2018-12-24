@@ -751,9 +751,9 @@ int main(int argc, char** argv)
 		// Draw the heads-up-display.
 
 		{
-			// Draw_Hotbar(Main_X_Resolution, Main_Y_Resolution, Context_X_Resolution, Context_Y_Resolution, Player_Selection % 9, Block_Texture_Array, 2);
+			Draw_Hotbar(Main_X_Resolution, Main_Y_Resolution, Context_X_Resolution, Context_Y_Resolution, Player_Selection % 9, Block_Texture_Array, 2);
 		
-			Render_Text("helllooooo,, im mrr.meme lesl", 0, 0, Main_X_Resolution, Main_Y_Resolution, black);
+			Render_Shadowed_Text(Make_Minceraft_Version_String(), 0, 0, Main_X_Resolution, Main_Y_Resolution, 2, white);
 		}
 
 		// The following code handles frame buffer rendering.
