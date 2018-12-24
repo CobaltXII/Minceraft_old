@@ -551,7 +551,7 @@ int main(int argc, char** argv)
 
 			// Fog uses a special algorithm to calculate it's far distance.
 
-			glUniform1f(glGetUniformLocation(Block_Program, "Fog_Distance"), pow(sqrt(float(The_World->X_Res * The_World->Z_Res)), 1.75f));
+			glUniform1f(glGetUniformLocation(Block_Program, "Fog_Distance"), pow(sqrt(float(The_World->X_Res * The_World->Z_Res)), 1.5f));
 
 			// Block destruction.
 
