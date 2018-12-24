@@ -884,7 +884,7 @@ void Propagate_Skylight
 
 inline bool Transparent(Block_ID Type)
 {
-	return (Type == id_air || Type == id_oak_leaves || Type == id_birch_leaves);
+	return (Type == id_air || Type == id_oak_leaves || Type == id_birch_leaves || Type == id_water);
 }
 
 // Convert a subset of a world into a mesh, and store it in World_Mesh_Target.
