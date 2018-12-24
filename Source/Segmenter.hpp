@@ -107,6 +107,19 @@ struct Segmenter
 
 		Set_Safe(X, Y, Z, Make_Voxel(Value, Voxel_Skylight(Current_Value), Voxel_Light(Current_Value)));
 	}
+
+	// Set the value of a block in the world, if the type of the current block at the same 
+	// position is air.
+
+	inline void Set_Safe_If_Air(unsigned int X, unsigned int Y, unsigned int Z, Voxel Value)
+	{
+		Voxel Current_Value = The_World->Get_Safe(X, Y, Z);
+
+		if (Voxel_Type(Current_Value) == id_air)
+		{
+			Set_Safe(X, Y, Z, Value);
+		}
+	}
 };
 
 // Create a segmenter from a world.
