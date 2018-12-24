@@ -657,6 +657,23 @@ int main(int argc, char** argv)
 				}
 			}
 
+			// Draw water layers.
+
+			glDepthMask(GL_FALSE);
+
+			for (int X = 0; X < The_Segmenter->Chunk_X_Res; X++)
+			{
+				for (int Z = 0; Z < The_Segmenter->Chunk_Z_Res; Z++)
+				{
+					for (int Y = 0; Y < The_Segmenter->Chunk_Y_Res; Y++)
+					{
+						Draw_Chunk_Water(The_Segmenter->The_Chunks[X + The_Segmenter->Chunk_X_Res * (Y + The_Segmenter->Chunk_Y_Res * Z)]);
+					}
+				}
+			}
+
+			glDepthMask(GL_TRUE);			
+
 			std::cout << Chunk_Updates << " chunk update(s).\r" << std::flush;
 
 			// Deactivate the block shader program.
@@ -666,6 +683,10 @@ int main(int argc, char** argv)
 			// Disable the block shader program.
 
 			glUseProgram(0);
+
+			// Disable alpha blending.
+
+			glDisable(GL_BLEND);
 
 			// Disable backface culling.
 
