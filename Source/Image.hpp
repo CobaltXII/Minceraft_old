@@ -91,7 +91,71 @@ std::vector<std::string> All_Block_Texture_Paths =
 
 	"Blocks/wool_colored_white.png",
 
-	"Blocks/wool_colored_yellow.png"
+	"Blocks/wool_colored_yellow.png",
+
+	"Blocks/water_0.png",
+
+	"Blocks/water_1.png",
+	
+	"Blocks/water_2.png",
+	
+	"Blocks/water_3.png",
+	
+	"Blocks/water_4.png",
+	
+	"Blocks/water_5.png",
+	
+	"Blocks/water_6.png",
+	
+	"Blocks/water_7.png",
+	
+	"Blocks/water_8.png",
+	
+	"Blocks/water_9.png",
+	
+	"Blocks/water_10.png",
+	
+	"Blocks/water_11.png",
+	
+	"Blocks/water_12.png",
+	
+	"Blocks/water_13.png",
+	
+	"Blocks/water_14.png",
+	
+	"Blocks/water_15.png",
+	
+	"Blocks/water_16.png",
+	
+	"Blocks/water_17.png",
+	
+	"Blocks/water_18.png",
+	
+	"Blocks/water_19.png",
+	
+	"Blocks/water_20.png",
+	
+	"Blocks/water_21.png",
+	
+	"Blocks/water_22.png",
+	
+	"Blocks/water_23.png",
+	
+	"Blocks/water_24.png",
+	
+	"Blocks/water_25.png",
+	
+	"Blocks/water_26.png",
+	
+	"Blocks/water_27.png",
+	
+	"Blocks/water_28.png",
+	
+	"Blocks/water_29.png",
+	
+	"Blocks/water_30.png",
+	
+	"Blocks/water_31.png"
 };
 
 // All interface sprites.
