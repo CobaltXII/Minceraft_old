@@ -46,7 +46,7 @@ enum Font_Color
 
 // Render a string of text.
 
-void Render_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Color_Index = white)
+void Render_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Factor, Font_Color Color_Index = white, bool Darkened = false)
 {
 	// String vertices have a position, a texture coordinate, and a color index. That gives us
 	// 5 floats for a vertex. Each character is composed of 6 vertices, so the amount of memory
@@ -57,8 +57,6 @@ void Render_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Col
 	float* P = Vertices;
 
 	// Hey, we need to update this so that font glyphs have variables size.
-
-	int Factor = 2;
 
 	float Font_Size = 8.0f * Factor;
 
@@ -108,7 +106,7 @@ void Render_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Col
 		*(P++) = Xt_l;
 		*(P++) = Yt_t;
 
-		*(P++) = float(Color_Index);
+		*(P++) = float(Color_Index) + 16 * Darkened;
 
 		// Top right.
 
@@ -118,7 +116,7 @@ void Render_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Col
 		*(P++) = Xt_r;
 		*(P++) = Yt_t;
 
-		*(P++) = float(Color_Index);
+		*(P++) = float(Color_Index) + 16 * Darkened;
 
 		// Bottom left.
 
@@ -130,7 +128,7 @@ void Render_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Col
 			*(P++) = Xt_l;
 			*(P++) = Yt_b;
 
-			*(P++) = float(Color_Index);
+			*(P++) = float(Color_Index) + 16 * Darkened;
 		}
 
 		// Top right.
@@ -141,7 +139,7 @@ void Render_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Col
 		*(P++) = Xt_r;
 		*(P++) = Yt_t;
 
-		*(P++) = float(Color_Index);
+		*(P++) = float(Color_Index) + 16 * Darkened;
 
 		// Bottom right.
 
@@ -151,7 +149,7 @@ void Render_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Col
 		*(P++) = Xt_r;
 		*(P++) = Yt_b;
 
-		*(P++) = float(Color_Index);
+		*(P++) = float(Color_Index) + 16 * Darkened;
 	}
 
 	// Generate VAO and VBO.
