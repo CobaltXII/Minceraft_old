@@ -86,7 +86,7 @@ Frame_Buffer* Build_Frame_Buffer(int X_Res, int Y_Res)
 
 	glBindRenderbuffer(GL_RENDERBUFFER, Render_Buffer);
 
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, X_Res, Y_Res);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, X_Res, Y_Res);
 
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, Render_Buffer);
 
