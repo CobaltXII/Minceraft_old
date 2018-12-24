@@ -182,11 +182,13 @@ int main(int argc, char** argv)
 
 	Generate_Interface_Textures();
 
-	// Generate sprite and isometric block preliminaries. Basically loads the sprite and isometric shaders.
+	// Generate preliminaries, under the hood this just loads a few shaders.
 
 	Generate_Sprite_Preliminaries();
 
 	Generate_Isometric_Preliminaries();
+
+	Generate_Font_Preliminaries();
 
 	// Load the block shader program.
 
@@ -750,6 +752,8 @@ int main(int argc, char** argv)
 
 		{
 			// Draw_Hotbar(Main_X_Resolution, Main_Y_Resolution, Context_X_Resolution, Context_Y_Resolution, Player_Selection % 9, Block_Texture_Array, 2);
+		
+			Render_Text("helllooooo,, im mrr.meme lesl", 0, 0, Main_X_Resolution, Main_Y_Resolution, black);
 		}
 
 		// The following code handles frame buffer rendering.
