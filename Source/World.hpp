@@ -889,7 +889,7 @@ inline bool Transparent(Block_ID Type)
 
 // Convert a subset of a world into a mesh, and store it in World_Mesh_Target.
 
-unsigned int World_Subset_To_Mesh
+void World_Subset_To_Mesh
 (
 	World* Input, 
 
@@ -901,10 +901,18 @@ unsigned int World_Subset_To_Mesh
 	unsigned int Y_Res, 
 	unsigned int Z_Res, 
 
-	float* Target
+	float* Target,
+
+	float* Water_Target,
+
+	unsigned int& Target_Size_In_Floats,
+
+	unsigned int& Water_Target_Size_In_Floats
 )
 {
 	float* P = Target;
+
+	float* W = Water_Target;
 
 	unsigned int Fx = X + X_Res;
 	unsigned int Fy = Y + Y_Res;
@@ -1119,7 +1127,9 @@ unsigned int World_Subset_To_Mesh
 		}	
 	}
 
-	// Return the mesh size.
+	// Store the mesh sizes.
 
-	return P - Target;
+	Target_Size_In_Floats = P - Target;
+
+	Water_Target_Size_In_Floats = W - Water_Target;
 }
