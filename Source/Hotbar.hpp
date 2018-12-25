@@ -1,3 +1,5 @@
+#include <sstream>
+
 // Generate a hotbar sprite (located correctly).
 
 Final_Sprite* Make_Hotbar_Sprite(int X_Res, int Y_Res, int Factor)
@@ -81,6 +83,12 @@ void Draw_Hotbar(int X_Res, int Y_Res, int Hi_X_Res, int Hi_Y_Res, int Selection
 
 	for (int i = 0; i < 9; i++)
 	{
-		Render_Isometric(Hotbar_X + (20 * i + 3) * Factor, Hotbar_Y + 3 * Factor, 16 * Factor, 16 * Factor, X_Res, Y_Res, Hi_X_Res, Hi_Y_Res, Block_ID(id_white_wool + i), Block_Texture_Array);
+		// Render_Isometric(Hotbar_X + (20 * i + 3) * Factor, Hotbar_Y + 3 * Factor, 16 * Factor, 16 * Factor, X_Res, Y_Res, Hi_X_Res, Hi_Y_Res, Block_ID(id_white_wool + i), Block_Texture_Array);
+
+		std::stringstream Number_Builder;
+
+		Number_Builder << 32 + i;
+
+		Render_Right_Aligned_Shadowed_Text(Number_Builder.str(), X_Res / 2 - Hotbar_X_Res / 2 + (20 * (i + 1)) * Factor, Y_Res - 10 * Factor, X_Res, Y_Res, Factor);
 	}
 }
