@@ -200,7 +200,7 @@ void Render_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Fac
 
 		if (Font_Info[Ascii] == nullptr)
 		{
-			Left_X += 5;
+			Left_X += 8;
 
 			continue;
 		}
