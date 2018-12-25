@@ -1,6 +1,25 @@
-// You must call Generate_Font_Preliminaries() before doing any font based operations.
+// You must call Generate_Font_Preliminaries() before doing any font based operations. Also, you
+// must call this after Generate_Interface_Textures() is called.
 
 GLuint Font_Program;
+
+struct Glyph_Info
+{
+	unsigned int Width;
+
+	unsigned int X_l;
+	unsigned int X_r;
+
+	Glyph_Info(unsigned int _Width, unsigned int _X_l, unsigned int _X_r)
+	{
+		Width = _Width;
+
+		X_l = _X_l;
+		X_r = _X_r;
+	}
+};
+
+Glyph_Info** Font_Info;
 
 void Generate_Font_Preliminaries()
 {
