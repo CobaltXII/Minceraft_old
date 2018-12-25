@@ -31,6 +31,9 @@
 #include "Matrix.hpp"
 #include "Matrix.cpp"
 
+#include "Raymarch.hpp"
+#include "Raymarch.cpp"
+
 #include "Crosshair.hpp"
 #include "Crosshair.cpp"
 
