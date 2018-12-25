@@ -179,6 +179,9 @@ enum Font_Color
 
 void Render_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Factor, Font_Color Color_Index = white, bool Darkened = false)
 {
+	X *= Factor;
+	Y *= Factor;
+
 	// String vertices have a position, a texture coordinate, and a color index. That gives us
 	// 5 floats for a vertex. Each character is composed of 6 vertices, so the amount of memory
 	// required is equivalent to 5 * 6 * String.size() * sizeof(float).
@@ -187,23 +190,30 @@ void Render_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Fac
 
 	float* P = Vertices;
 
-	// Hey, we need to update this so that font glyphs have variables size.
-
-	float Font_Size = 8.0f * Factor;
-
-	float Font_Size_With_Spacing = 9.0f * Factor;
+	float Left_X = X;
 
 	for (int i = 0; i < String.size(); i++)
 	{
+		// Get the character code.
+
+		unsigned char Ascii = String[i];
+
+		if (Font_Info[Ascii] == nullptr)
+		{
+			Left_X += 5;
+
+			continue;
+		}
+
 		// Screen coordinates.
 
-		float X_l = X + i * Font_Size_With_Spacing; 
+		float X_l = Left_X; 
 
-		float X_r = X + i * Font_Size_With_Spacing + Font_Size;
+		float X_r = Left_X + Font_Info[Ascii]->Width * Factor;
 
 		float Y_t = Y;
 
-		float Y_b = Y + Font_Size;
+		float Y_b = Y + 8.0f * Factor;
 
 		X_l = X_l / float(X_Res) * 2.0f - 1.0f;
 
@@ -215,15 +225,13 @@ void Render_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Fac
 
 		// Texture coordinates.
 
-		unsigned char Ascii = String[i];
-
 		unsigned char Ascii_X = Ascii % 16;
 
 		unsigned char Ascii_Y = Ascii / 16;
 
-		float Xt_l = float(Ascii_X) * 8.0f / 128.0f;
+		float Xt_l = (float(Ascii_X) * 8.0f + Font_Info[Ascii]->X_l) / 128.0f;
 
-		float Xt_r = (float(Ascii_X) * 8.0f + 8.0f) / 128.0f;
+		float Xt_r = (float(Ascii_X) * 8.0f + Font_Info[Ascii]->X_r) / 128.0f;
 
 		float Yt_t = (float(Ascii_Y) * 8.0f / 128.0f);
 
@@ -281,6 +289,10 @@ void Render_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Fac
 		*(P++) = Yt_b;
 
 		*(P++) = float(Color_Index) + 16 * Darkened;
+
+		// Increment position.
+
+		Left_X += (Font_Info[Ascii]->Width + 1) * Factor;
 	}
 
 	// Generate VAO and VBO.
@@ -349,7 +361,7 @@ void Render_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Fac
 
 inline void Render_Shadowed_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Factor, Font_Color Color_Index = white)
 {
-	Render_Text(String, X + Factor, Y + Factor, X_Res, Y_Res, Factor, Color_Index, true);
+	Render_Text(String, X + 1, Y + 1, X_Res, Y_Res, Factor, Color_Index, true);
 
 	Render_Text(String, X, Y, X_Res, Y_Res, Factor, Color_Index, false);
 }
