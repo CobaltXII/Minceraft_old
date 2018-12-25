@@ -179,9 +179,6 @@ enum Font_Color
 
 void Render_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Factor, Font_Color Color_Index = white, bool Darkened = false)
 {
-	X *= Factor;
-	Y *= Factor;
-
 	// String vertices have a position, a texture coordinate, and a color index. That gives us
 	// 5 floats for a vertex. Each character is composed of 6 vertices, so the amount of memory
 	// required is equivalent to 5 * 6 * String.size() * sizeof(float).
@@ -361,7 +358,31 @@ void Render_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Fac
 
 inline void Render_Shadowed_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Factor, Font_Color Color_Index = white)
 {
-	Render_Text(String, X + 1, Y + 1, X_Res, Y_Res, Factor, Color_Index, true);
+	Render_Text(String, X + Factor, Y + Factor, X_Res, Y_Res, Factor, Color_Index, true);
 
 	Render_Text(String, X, Y, X_Res, Y_Res, Factor, Color_Index, false);
+}
+
+// Render a string of text that is centered horizontally.
+
+inline void Render_Centered_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Factor, Font_Color Color_Index = white)
+{
+	unsigned int String_Width = 0;
+
+	for (int i = 0; i < String.size(); i++)
+	{
+		if (Font_Info[(unsigned char)(String[i])] == nullptr)
+		{
+			String_Width += 8;
+
+			continue;
+		}
+
+		String_Width += Font_Info[(unsigned char)(String[i])]->Width + 1;
+	}
+
+	Render_Text(String, X - String_Width / 2 * Factor, Y, X_Res, Y_Res, Factor, Color_Index, false);
+}
+
+// Render a string of text that is centered horizontally with a shadow.
 }
