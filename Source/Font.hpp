@@ -385,4 +385,26 @@ inline void Render_Centered_Text(std::string String, int X, int Y, int X_Res, in
 }
 
 // Render a string of text that is centered horizontally with a shadow.
+
+inline void Render_Centered_Shadowed_Text(std::string String, int X, int Y, int X_Res, int Y_Res, int Factor, Font_Color Color_Index = white)
+{
+	unsigned int String_Width = 0;
+
+	for (int i = 0; i < String.size(); i++)
+	{
+		if (Font_Info[(unsigned char)(String[i])] == nullptr)
+		{
+			String_Width += 8;
+
+			continue;
+		}
+
+		String_Width += Font_Info[(unsigned char)(String[i])]->Width + 1;
+	}
+
+	Render_Text(String, X - String_Width / 2 * Factor + Factor, Y + Factor, X_Res, Y_Res, Factor, Color_Index, true);
+
+	Render_Text(String, X - String_Width / 2 * Factor, Y, X_Res, Y_Res, Factor, Color_Index, false);
+}
+
 }
