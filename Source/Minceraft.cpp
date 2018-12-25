@@ -593,42 +593,45 @@ int main(int argc, char** argv)
 				}
 			}
 
-			if (Main_Mouse_L)
-			{
-				int Radius = 3;
+			// if (Main_Mouse_L)
+			// {
+			// 	int Radius = 3;
 
-				for (int X = -Radius; X <= Radius; X++)
-				{
-					for (int Y = -Radius; Y <= Radius; Y++)
-					{
-						for (int Z = -Radius; Z <= Radius; Z++)
-						{
-							if (X * X + Y * Y + Z * Z < Radius * Radius)
-							{
-								The_Segmenter->Set_Safe_Unlit(-Player_X + X, -Player_Y + Y, -Player_Z + Z, id_white_wool);
-							}
-						}
-					}
-				}
-			}
-			else if (Main_Mouse_R)
-			{
-				int Radius = 16;
+			// 	for (int X = -Radius; X <= Radius; X++)
+			// 	{
+			// 		for (int Y = -Radius; Y <= Radius; Y++)
+			// 		{
+			// 			for (int Z = -Radius; Z <= Radius; Z++)
+			// 			{
+			// 				if (X * X + Y * Y + Z * Z < Radius * Radius)
+			// 				{
+			// 					The_Segmenter->Set_Safe_Unlit(-Player_X + X, -Player_Y + Y, -Player_Z + Z, id_white_wool);
+			// 				}
+			// 			}
+			// 		}
+			// 	}
+			// }
+			// else if (Main_Mouse_R)
+			// {
+			// 	int Radius = 16;
 
-				for (int X = -Radius; X <= Radius; X++)
-				{
-					for (int Y = -Radius; Y <= Radius; Y++)
-					{
-						for (int Z = -Radius; Z <= Radius; Z++)
-						{
-							if (X * X + Y * Y + Z * Z < Radius * Radius)
-							{
-								The_Segmenter->Set_Safe_Unlit(-Player_X + X, -Player_Y + Y, -Player_Z + Z, id_air);
-							}
-						}
-					}
-				}
-			}
+			// 	for (int X = -Radius; X <= Radius; X++)
+			// 	{
+			// 		for (int Y = -Radius; Y <= Radius; Y++)
+			// 		{
+			// 			for (int Z = -Radius; Z <= Radius; Z++)
+			// 			{
+			// 				if (X * X + Y * Y + Z * Z < Radius * Radius)
+			// 				{
+			// 					if (Voxel_Type(The_World->Get_Safe(-Player_X + X, -Player_Y + Y, -Player_Z + Z)) != id_bedrock)
+			// 					{
+			// 						The_Segmenter->Set_Safe_Unlit(-Player_X + X, -Player_Y + Y, -Player_Z + Z, id_air);
+			// 					}
+			// 				}
+			// 			}
+			// 		}
+			// 	}
+			// }
 
 			// Draw and update the chunks. We could iterate using a 1-dimensional loop, but we want
 			// to update the topmost chunks first, so that light propagates correctly.
@@ -753,7 +756,7 @@ int main(int argc, char** argv)
 		{
 			Draw_Hotbar(Main_X_Resolution, Main_Y_Resolution, Context_X_Resolution, Context_Y_Resolution, Player_Selection % 9, Block_Texture_Array, 2);
 		
-			Render_Shadowed_Text(Make_Minceraft_Version_String(), 0, 0, Main_X_Resolution, Main_Y_Resolution, 2, white);
+			// Render_Centered_Shadowed_Text(Make_Minceraft_Version_String(), Main_X_Resolution / 4, Main_Y_Resolution / 2 - 32, Main_X_Resolution, Main_Y_Resolution, 2, white);
 		}
 
 		// The following code handles frame buffer rendering.
