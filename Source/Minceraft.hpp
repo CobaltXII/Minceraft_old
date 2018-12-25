@@ -43,8 +43,8 @@
 #include "Isometric.hpp"
 #include "Isometric.cpp"
 
-#include "Hotbar.hpp"
-#include "Hotbar.cpp"
-
 #include "Font.hpp"
 #include "Font.cpp"
+
+#include "Hotbar.hpp"
+#include "Hotbar.cpp"
