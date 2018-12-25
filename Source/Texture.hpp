@@ -129,15 +129,19 @@ struct Texture
 {
 	GLuint Storage;
 
+	unsigned char* Data;
+
 	int X_Res;
 	int Y_Res;
 };
 
-Texture* Make_Texture(GLuint _Storage, int _X_Res, int _Y_Res)
+Texture* Make_Texture(GLuint _Storage, unsigned char* _Data, int _X_Res, int _Y_Res)
 {
 	Texture* The_Texture = new Texture();
 
 	The_Texture->Storage = _Storage;
+
+	The_Texture->Data = _Data;
 
 	The_Texture->X_Res = _X_Res;
 	The_Texture->Y_Res = _Y_Res;
@@ -203,15 +207,13 @@ std::map<std::string, Texture*> Generate_Interface_Textures()
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 
-		stbi_image_free(Interface_Texture_Data);
-
 		// Store the texture.
 
 		std::string Short_Path = std::string(All_Interface_Texture_Paths[i]).erase(0, 10);
 
 		Short_Path = Short_Path.substr(0, Short_Path.length() - 4);
 
-		Out.emplace(Short_Path, Make_Texture(Interface_Texture, Interface_Texture_X_Res, Interface_Texture_Y_Res));
+		Out.emplace(Short_Path, Make_Texture(Interface_Texture, Interface_Texture_Data, Interface_Texture_X_Res, Interface_Texture_Y_Res));
 	}
 
 	// Return the map (probably going to be unused via return value) after assigning it to 
