@@ -24,6 +24,118 @@ Glyph_Info** Font_Info;
 void Generate_Font_Preliminaries()
 {
 	Font_Program = Load_Program("../Shaders/Font_Vertex.glsl", "../Shaders/Font_Fragment.glsl");
+
+	// Retrieve the Texture* associated with the font.
+
+	Texture* The_Font = Interface_Textures["font"];
+
+	// Calculate information about the glyphs in the font.
+
+	Font_Info = (Glyph_Info**)malloc(256 * sizeof(Glyph_Info*));
+
+	for (int i = 0; i < 256; i++)
+	{
+		// I'm not joking around, or just putting this here because it's a common programmer meme.
+		// I honestly, truthfully, have no idea why I need to switch X_l and X_r around, because
+		// if I don't, the whole thing breaks. Seriously.
+
+		unsigned int X_l = 999;
+		unsigned int X_r = 999;
+
+		// Get the texture coordinates corresponding to the glyph.
+
+		int Tx = i % 16 * 8;
+
+		int Ty = i / 16 * 8;
+
+		// Find X_l.
+
+		for (int x = 0; x < 8; x++)
+		{
+			int Tmx = Tx + x;
+
+			bool Solid = false;
+
+			for (int y = 0; y < 8; y++)
+			{
+				int Tmy = Ty + y;
+
+				// If the channel count is not 4 (it will be 4 unless someone changes the image),
+				// then this will probably either cause a segmentation fault or just return stupid
+				// values.
+
+				unsigned char* Offset = The_Font->Data + (Tmx + The_Font->X_Res * Tmy) * 4;
+
+				if (Offset[3] == 255)
+				{
+					// Found an empty pixel.
+
+					Solid = true;
+
+					break;
+				}
+			}
+
+			if (Solid)
+			{
+				// Found a solid vertical stripe of the glyph, we now know the first solid 
+				// stripe location.
+
+				X_r = x;
+			}
+		}
+
+		if (X_r == 999)
+		{
+			// Damn, it's an empty one. We'll just pretend it doesn't exist...
+
+			Font_Info[i] = nullptr;
+
+			continue;
+		}
+
+		// Find X_r.
+
+		for (int x = 0; x < 8; x++)
+		{
+			int Tmx = Tx + (7 - x);
+
+			bool Solid = false;
+
+			for (int y = 0; y < 8; y++)
+			{
+				int Tmy = Ty + y;
+
+				// If the channel count is not 4 (it will be 4 unless someone changes the image),
+				// then this will probably either cause a segmentation fault or just return stupid
+				// values.
+
+				unsigned char* Offset = The_Font->Data + (Tmx + The_Font->X_Res * Tmy) * 4;
+
+				if (Offset[3] == 255)
+				{
+					// Found an empty pixel.
+
+					Solid = true;
+
+					break;
+				}
+			}
+
+			if (Solid)
+			{
+				// Found a solid vertical stripe of the glyph, we now know the first solid 
+				// stripe location.
+
+				X_l = 7 - x;
+			}
+		}
+
+		// We have X_l and X_r (hopefully), so we can easily calculate the width and store it in a
+		// structure.
+
+		Font_Info[i] = new Glyph_Info(X_r + 1 - X_l, X_l, X_r + 1);
+	}
 }
 
 // Font color enumerations.
