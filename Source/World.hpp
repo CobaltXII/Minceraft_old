@@ -821,8 +821,6 @@ void Generate_World(World* Out, unsigned int Seed)
 		}
 	} 
 
-	std::cout << Light_Queue.size() << std::endl;
-
 	// Pop the top off of the queue. We'll call this the 'current block'. Check it's six 
 	// neighbors, if any of them have a light value less than the current block's light value
 	// minus one, set that neighbors light value to the current block's light value minus one, and
