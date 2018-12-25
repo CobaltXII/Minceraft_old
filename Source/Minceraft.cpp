@@ -222,7 +222,7 @@ int main(int argc, char** argv)
 
 	// Generate a fresh world.
 
-	int World_Size = Id_Medium_World;
+	int World_Size = Id_Tiny_World;
 
 	World* The_World = Allocate_Empty_World(World_X_Res_List[World_Size], World_Y_Res_List[World_Size], World_Z_Res_List[World_Size]);
 
@@ -555,83 +555,49 @@ int main(int argc, char** argv)
 
 			glUniform1f(glGetUniformLocation(Block_Program, "Fog_Distance"), pow(sqrt(float(The_World->X_Res * The_World->Z_Res)), 1.75f));
 
-			// Block destruction.
+			// Block placement and block destruction.
 
-			if (false)
+			if ((Main_Mouse_L || Main_Mouse_R) && Main_Iteration % 15 == 0)
 			{
-				float Px = -Player_X;
-				float Py = -Player_Y;
-				float Pz = -Player_Z;
+				Raymarch_Data Data = Raymarch(The_World, -Player_X, -Player_Y, -Player_Z, Look_X, Look_Y, 128.0f);
 
-				float Ix = -sin(Radians(Look_Y)) * 0.2f;
-
-				float Iy = -tan(Radians(Look_X)) * 0.2f;
-
-				float Iz = -cos(Radians(Look_Y)) * 0.2f;
-
-				while (true)
+				if (Data.Hit)
 				{
-					// Check for collisions.
-
-					if (Voxel_Type(The_World->Get_Safe(int(Px), int(Py), int(Pz))) != id_air)
+					if (Main_Mouse_L)
 					{
-						The_Segmenter->Set_Safe_Unlit(int(Px), int(Py), int(Pz), id_air);
+						Block_ID Type = id_oak_planks;
+
+						if (Data.Hit_Side == 0)
+						{
+							The_Segmenter->Set_Safe_Unlit(Data.Hit_X - 1, Data.Hit_Y, Data.Hit_Z, Type);
+						}
+						else if (Data.Hit_Side == 1)
+						{
+							The_Segmenter->Set_Safe_Unlit(Data.Hit_X + 1, Data.Hit_Y, Data.Hit_Z, Type);
+						}
+						else if (Data.Hit_Side == 2)
+						{
+							The_Segmenter->Set_Safe_Unlit(Data.Hit_X, Data.Hit_Y - 1, Data.Hit_Z, Type);
+						}
+						else if (Data.Hit_Side == 3)
+						{
+							The_Segmenter->Set_Safe_Unlit(Data.Hit_X, Data.Hit_Y + 1, Data.Hit_Z, Type);
+						}
+						else if (Data.Hit_Side == 4)
+						{
+							The_Segmenter->Set_Safe_Unlit(Data.Hit_X, Data.Hit_Y, Data.Hit_Z - 1, Type);
+						}
+						else if (Data.Hit_Side == 5)
+						{
+							The_Segmenter->Set_Safe_Unlit(Data.Hit_X, Data.Hit_Y, Data.Hit_Z + 1, Type);
+						}
 					}
-
-					// Increment ray position.
-
-					Px += Ix;
-					Py += Iy;
-					Pz += Iz;
-
-					// Abort when too far.
-
-					if ((Px + Player_X) * (Px + Player_X) + (Py + Player_Y) * (Py + Player_Y) + (Pz + Player_Z) * (Pz + Player_Z) > 16.0f * 16.0f)
+					else
 					{
-						break;
+						The_Segmenter->Set_Safe_Unlit(Data.Hit_X, Data.Hit_Y, Data.Hit_Z, id_air);
 					}
 				}
 			}
-
-			// if (Main_Mouse_L)
-			// {
-			// 	int Radius = 3;
-
-			// 	for (int X = -Radius; X <= Radius; X++)
-			// 	{
-			// 		for (int Y = -Radius; Y <= Radius; Y++)
-			// 		{
-			// 			for (int Z = -Radius; Z <= Radius; Z++)
-			// 			{
-			// 				if (X * X + Y * Y + Z * Z < Radius * Radius)
-			// 				{
-			// 					The_Segmenter->Set_Safe_Unlit(-Player_X + X, -Player_Y + Y, -Player_Z + Z, id_white_wool);
-			// 				}
-			// 			}
-			// 		}
-			// 	}
-			// }
-			// else if (Main_Mouse_R)
-			// {
-			// 	int Radius = 16;
-
-			// 	for (int X = -Radius; X <= Radius; X++)
-			// 	{
-			// 		for (int Y = -Radius; Y <= Radius; Y++)
-			// 		{
-			// 			for (int Z = -Radius; Z <= Radius; Z++)
-			// 			{
-			// 				if (X * X + Y * Y + Z * Z < Radius * Radius)
-			// 				{
-			// 					if (Voxel_Type(The_World->Get_Safe(-Player_X + X, -Player_Y + Y, -Player_Z + Z)) != id_bedrock)
-			// 					{
-			// 						The_Segmenter->Set_Safe_Unlit(-Player_X + X, -Player_Y + Y, -Player_Z + Z, id_air);
-			// 					}
-			// 				}
-			// 			}
-			// 		}
-			// 	}
-			// }
 
 			// Draw and update the chunks. We could iterate using a 1-dimensional loop, but we want
 			// to update the topmost chunks first, so that light propagates correctly.
@@ -685,7 +651,7 @@ int main(int argc, char** argv)
 
 			glDepthMask(GL_TRUE);			
 
-			std::cout << Chunk_Updates << " chunk update(s).\r" << std::flush;
+			// std::cout << Chunk_Updates << " chunk update(s).\r" << std::flush;
 
 			// Deactivate the block shader program.
 
@@ -710,7 +676,7 @@ int main(int argc, char** argv)
 
 		// The following code handles crosshair rendering.
 
-		if (false)
+		if (true)
 		{
 			// Enable alpha blending.
 
