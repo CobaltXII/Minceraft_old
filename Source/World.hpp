@@ -760,8 +760,7 @@ void Generate_World(World* Out, unsigned int Seed)
 	}
 
 	// For each vertical strip of land, start with a lighting value of 15. Go downwards, if the 
-	// block is air, stay at light level 15. If not, set everything below it to 0. All blocks that
-	// are set to light level 0 are added to the queue.
+	// block is air, stay at light level 15. If not, set everything below it to 0.
 
 	std::vector<std::tuple<unsigned int, unsigned int, unsigned int>> Light_Queue;
 
@@ -789,6 +788,40 @@ void Generate_World(World* Out, unsigned int Seed)
 			}
 		}
 	}
+
+	// All blocks that are of light level 0 that have one or more neighbors that have a light
+	// level of 15 are added to the queue.
+
+	for (int X = 0; X < Out->X_Res; X++)
+	{
+		for (int Y = 0; Y < Out->Y_Res; Y++)
+		{
+			for (int Z = 0; Z < Out->Z_Res; Z++)
+			{
+				if (Voxel_Skylight(Out->Get(X, Y, Z)) == 0)
+				{
+					if 
+					(
+						Voxel_Skylight(Out->Get_Safe(X + 1, Y, Z)) == 15 ||
+						Voxel_Skylight(Out->Get_Safe(X - 1, Y, Z)) == 15 ||
+
+						Voxel_Skylight(Out->Get_Safe(X, Y + 1, Z)) == 15 ||
+						Voxel_Skylight(Out->Get_Safe(X, Y - 1, Z)) == 15 ||
+
+						Voxel_Skylight(Out->Get_Safe(X, Y, Z + 1)) == 15 ||
+						Voxel_Skylight(Out->Get_Safe(X, Y, Z - 1)) == 15
+					)
+					{
+						Out->Set(X, Y, Z, Make_Voxel(Voxel_Type(Out->Get(X, Y, Z)), 14, Voxel_Light(Out->Get(X, Y, Z))));
+
+						Light_Queue.push_back(std::tuple<unsigned int, unsigned int, unsigned int>(X, Y, Z));
+					}
+				}
+			}
+		}
+	} 
+
+	std::cout << Light_Queue.size() << std::endl;
 
 	// Pop the top off of the queue. We'll call this the 'current block'. Check it's six 
 	// neighbors, if any of them have a light value less than the current block's light value
