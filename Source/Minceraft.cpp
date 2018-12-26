@@ -45,7 +45,7 @@ std::string Byte_Format(unsigned int Bytes)
 
 // Current Minceraft version.
 
-std::string Minceraft_Version = "0.0.64";
+std::string Minceraft_Version = "0.0.88";
 
 // Generate the version string for this build of Minceraft.
 
@@ -557,7 +557,7 @@ int main(int argc, char** argv)
 
 			// Block placement and block destruction.
 
-			if ((Main_Mouse_L || Main_Mouse_R) && Main_Iteration % 5 == 0)
+			if ((Main_Mouse_L || Main_Mouse_R) && Main_Iteration % 5 == 0 && false)
 			{
 				Raymarch_Data Data = Raymarch(The_World, -Player_X, -Player_Y, -Player_Z, Look_X, Look_Y, 128.0f);
 
@@ -729,7 +729,7 @@ int main(int argc, char** argv)
 		// Draw the heads-up-display.
 
 		{
-			Draw_Hotbar(Main_X_Resolution, Main_Y_Resolution, Context_X_Resolution, Context_Y_Resolution, Player_Selection % 9, Block_Texture_Array, 2);
+			// Draw_Hotbar(Main_X_Resolution, Main_Y_Resolution, Context_X_Resolution, Context_Y_Resolution, Player_Selection % 9, Block_Texture_Array, 2);
 		
 			// Render_Centered_Shadowed_Text(Make_Minceraft_Version_String(), Main_X_Resolution / 4, Main_Y_Resolution / 2 - 32, Main_X_Resolution, Main_Y_Resolution, 2, white);
 		}
