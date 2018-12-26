@@ -230,7 +230,7 @@ void Generate_World(World* Out, unsigned int Seed)
 
 	// Sometimes mushroom worlds can generate!
 
-	bool Mushroom_World = true;
+	bool Mushroom_World = rand() == RAND_MAX;
 
 	// Generate the base terrain. Basically, this uses 3-dimensional Perlin noise to generate a
 	// terrain-like shape. Anything that is inside this shape is set to stone.
