@@ -513,6 +513,8 @@ int main(int argc, char** argv)
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		
+
 		// The following code handles world rendering.
 
 		{
@@ -557,7 +559,7 @@ int main(int argc, char** argv)
 
 			// Block placement and block destruction.
 
-			if ((Main_Mouse_L || Main_Mouse_R) && Main_Iteration % 15 == 0)
+			if ((Main_Mouse_L || Main_Mouse_R) && Main_Iteration % 5 == 0 && false)
 			{
 				Raymarch_Data Data = Raymarch(The_World, -Player_X, -Player_Y, -Player_Z, Look_X, Look_Y, 128.0f);
 
@@ -565,7 +567,7 @@ int main(int argc, char** argv)
 				{
 					if (Main_Mouse_L)
 					{
-						Block_ID Type = id_oak_planks;
+						Block_ID Type = Block_ID(id_white_wool + Player_Selection);
 
 						if (Data.Hit_Side == 0)
 						{
@@ -618,7 +620,7 @@ int main(int argc, char** argv)
 
 							Update_Subset(The_Segmenter, The_Chunk->X, The_Chunk->Y, The_Chunk->Z, The_Chunk->X_Res, The_Chunk->Y_Res, The_Chunk->Z_Res);
 
-							Propagate_Skylight(The_World, The_Chunk->X, The_Chunk->Y, The_Chunk->Z, The_Chunk->X_Res, The_Chunk->Y_Res, The_Chunk->Z_Res);
+							Propagate_Skylight(The_World, The_Chunk->X, The_Chunk->Z, The_Chunk->X_Res, The_Chunk->Z_Res);
 
 							Chunk* New_Chunk = Make_Chunk(The_World, The_Chunk->X, The_Chunk->Y, The_Chunk->Z, The_Chunk->X_Res, The_Chunk->Y_Res, The_Chunk->Z_Res);
 
@@ -651,7 +653,7 @@ int main(int argc, char** argv)
 
 			glDepthMask(GL_TRUE);			
 
-			// std::cout << Chunk_Updates << " chunk update(s).\r" << std::flush;
+			std::cout << Chunk_Updates << " chunk update(s).\r" << std::flush;
 
 			// Deactivate the block shader program.
 
