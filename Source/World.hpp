@@ -228,6 +228,10 @@ void Generate_World(World* Out, unsigned int Seed)
 
 	Perlin Noise = Perlin(Seed);
 
+	// Sometimes mushroom worlds can generate!
+
+	bool Mushroom_World = true;
+
 	// Generate the base terrain. Basically, this uses 3-dimensional Perlin noise to generate a
 	// terrain-like shape. Anything that is inside this shape is set to stone.
 
@@ -281,7 +285,14 @@ void Generate_World(World* Out, unsigned int Seed)
 					}
 					else
 					{
-						Out->Set_Safe(int(X), int(Y), int(Z), Make_Voxel(id_grass));
+						if (Mushroom_World)
+						{
+							Out->Set_Safe(int(X), int(Y), int(Z), Make_Voxel(id_mycelium));
+						}
+						else
+						{
+							Out->Set_Safe(int(X), int(Y), int(Z), Make_Voxel(id_grass));
+						}
 					}
 
 					Out->Set_Safe(int(X), int(Y) + 1, int(Z), Make_Voxel(id_dirt));
@@ -437,6 +448,11 @@ void Generate_World(World* Out, unsigned int Seed)
 				}
 			}
 		}
+	}
+
+	if (Mushroom_World)
+	{
+		goto Done_Trees;
 	}
 
 	// Plant trees.
@@ -622,9 +638,18 @@ void Generate_World(World* Out, unsigned int Seed)
 		}
 	}
 
+	Done_Trees:
+
 	// Plant mushrooms.
 
-	for (int I = 0; I < Out->X_Res * Out->Z_Res / 1024; I++)
+	int Mushroom_Count = Out->X_Res * Out->Z_Res / 1024;
+
+	if (Mushroom_World)
+	{
+		Mushroom_Count = Out->X_Res * Out->Z_Res / 32;
+	}
+
+	for (int I = 0; I < Mushroom_Count; I++)
 	{
 		Mushroom:
 
@@ -637,7 +662,7 @@ void Generate_World(World* Out, unsigned int Seed)
 			{
 				// Okay, found something that is not air.
 
-				if (Voxel_Type(Out->Get(int(X), int(Y), int(Z))) == id_grass)
+				if (Voxel_Type(Out->Get(int(X), int(Y), int(Z))) == id_grass || Voxel_Type(Out->Get(int(X), int(Y), int(Z))) == id_mycelium)
 				{
 					// It's grass, we may plant a mushroom if there are enough blocks available 
 					// above the grass.
