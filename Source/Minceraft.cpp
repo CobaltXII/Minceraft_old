@@ -559,7 +559,7 @@ int main(int argc, char** argv)
 
 			// Block placement and block destruction.
 
-			if ((Main_Mouse_L || Main_Mouse_R) && Main_Iteration % 5 == 0 && false)
+			if ((Main_Mouse_L || Main_Mouse_R) && Main_Iteration % 5 == 0)
 			{
 				Raymarch_Data Data = Raymarch(The_World, -Player_X, -Player_Y, -Player_Z, Look_X, Look_Y, 128.0f);
 
