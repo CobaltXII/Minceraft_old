@@ -84,6 +84,8 @@ void Make_Block_Face_Info()
 
 		Make_Face_Info_Caps(Texture_Name_To_Layer["grass_top"], Texture_Name_To_Layer["dirt"], Texture_Name_To_Layer["grass_side"]),
 
+		Make_Face_Info_Caps(Texture_Name_To_Layer["mycelium_top"], Texture_Name_To_Layer["dirt"], Texture_Name_To_Layer["mycelium_side"]),
+
 		Make_Face_Info_All(Texture_Name_To_Layer["sand"]),
 
 		Make_Face_Info_All(Texture_Name_To_Layer["gravel"]),

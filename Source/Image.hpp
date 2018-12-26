@@ -49,6 +49,10 @@ std::vector<std::string> All_Block_Texture_Paths =
 
 	"Blocks/mushroom_block_stem_top.png",
 
+	"Blocks/mycelium_side.png",
+
+	"Blocks/mycelium_top.png",
+
 	"Blocks/oak_leaves.png",
 
 	"Blocks/oak_log_side.png",

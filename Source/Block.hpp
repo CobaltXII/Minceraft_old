@@ -20,6 +20,8 @@ enum Block_ID
 
 	id_grass,
 
+	id_mycelium,
+
 	id_sand,
 
 	id_gravel,
@@ -109,6 +111,8 @@ std::vector<std::string> Block_ID_To_String =
 
 	"grass",
 
+	"mycelium",
+
 	"sand",
 
 	"gravel",
@@ -195,6 +199,8 @@ std::vector<std::string> Block_ID_To_Block_Name =
 	"Dirt",
 
 	"Grass",
+
+	"Mycelium",
 
 	"Sand",
 
