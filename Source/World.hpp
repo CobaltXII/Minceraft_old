@@ -897,14 +897,11 @@ void Propagate_Skylight
 	World* Out, 
 
 	int Cx, 
-	int Cz, 
-
-	unsigned int X_Res, 
-	unsigned int Z_Res
+	int Cz
 )
 {
-	int Fx = Cx + X_Res;
-	int Fz = Cz + Z_Res;
+	int Fx = Cx + 1;
+	int Fz = Cz + 1;
 
 	// For each vertical strip of land, start with a lighting value of 15. Go downwards, if the 
 	// block is air, stay at light level 15. If not, set everything below it to 0.
@@ -927,38 +924,14 @@ void Propagate_Skylight
 				{
 					Skylight = 0;
 				}
-			}
-		}
-	}
 
-	// All blocks that are of light level 0 that have one or more neighbors that have a light
-	// level of 15 are added to the queue.
+				Light_Queue.push_back(std::tuple<unsigned int, unsigned int, unsigned int>(X, Y, Z));
 
-	for (int X = Cx - 1; X < Fx + 1; X++)
-	{
-		for (int Y = 0; Y < Out->Y_Res; Y++)
-		{
-			for (int Z = Cz - 1; Z < Fz + 1; Z++)
-			{
-				if (Voxel_Skylight(Out->Get_Safe(X, Y, Z)) == 0)
-				{
-					if 
-					(
-						Voxel_Skylight(Out->Get_Safe(X + 1, Y, Z)) == 15 ||
-						Voxel_Skylight(Out->Get_Safe(X - 1, Y, Z)) == 15 ||
+				Light_Queue.push_back(std::tuple<unsigned int, unsigned int, unsigned int>(X - 1, Y, Z));
+				Light_Queue.push_back(std::tuple<unsigned int, unsigned int, unsigned int>(X + 1, Y, Z));
 
-						Voxel_Skylight(Out->Get_Safe(X, Y + 1, Z)) == 15 ||
-						Voxel_Skylight(Out->Get_Safe(X, Y - 1, Z)) == 15 ||
-
-						Voxel_Skylight(Out->Get_Safe(X, Y, Z + 1)) == 15 ||
-						Voxel_Skylight(Out->Get_Safe(X, Y, Z - 1)) == 15
-					)
-					{
-						Out->Set(X, Y, Z, Make_Voxel(Voxel_Type(Out->Get(X, Y, Z)), 14, Voxel_Light(Out->Get(X, Y, Z))));
-
-						Light_Queue.push_back(std::tuple<unsigned int, unsigned int, unsigned int>(X, Y, Z));
-					}
-				}
+				Light_Queue.push_back(std::tuple<unsigned int, unsigned int, unsigned int>(X, Y, Z - 1));
+				Light_Queue.push_back(std::tuple<unsigned int, unsigned int, unsigned int>(X, Y, Z + 1));
 			}
 		}
 	}
@@ -975,6 +948,11 @@ void Propagate_Skylight
 		int Z = std::get<2>(Light_Queue[Light_Queue.size() - 1]);
 
 		Light_Queue.pop_back();
+
+		if (Out->Out_Of_Bounds(X, Y, Z))
+		{
+			continue;
+		}
 
 		unsigned char Current_Value = Voxel_Skylight(Out->Get(X, Y, Z));
 
