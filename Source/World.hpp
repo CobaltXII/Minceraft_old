@@ -772,11 +772,6 @@ void Generate_World(World* Out, unsigned int Seed)
 
 			for (float Y = 0; Y < Out->Y_Res; Y++)
 			{
-				if (Skylight == 0)
-				{
-					Light_Queue.push_back(std::tuple<unsigned int, unsigned int, unsigned int>(X, Y, Z));
-				}
-
 				Block_ID Block_Type = Voxel_Type(Out->Get(int(X), int(Y), int(Z)));
 
 				Out->Set(int(X), int(Y), int(Z), Make_Voxel(Block_Type, Skylight, 0));
