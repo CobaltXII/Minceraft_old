@@ -85,16 +85,6 @@ struct Segmenter
 					The_Chunks[(X / 16) + Chunk_X_Res * ((Y / 16) + Chunk_Y_Res * (Z / 16 + 1))]->Modified = true;
 				}
 			}
-
-			// Update chunks below the block being set's position if sky lighting will change.
-
-			if ((Voxel_Type(Value) == id_air) != (Voxel_Type(Old_Value) == id_air))
-			{
-				for (unsigned int Py = Y / 16; Py < Chunk_Y_Res; Py++)
-				{
-					The_Chunks[(X / 16) + Chunk_X_Res * (Py + Chunk_Y_Res * (Z / 16))]->Modified = true;
-				}
-			}
 		}
 	}
 

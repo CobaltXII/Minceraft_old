@@ -899,52 +899,142 @@ void Generate_World(World* Out, unsigned int Seed)
 
 void Propagate_Skylight
 (
-	World* Input, 
+	World* Out, 
 
-	unsigned int X, 
-	unsigned int Y, 
-	unsigned int Z, 
+	int Cx, 
+	int Cz, 
 
 	unsigned int X_Res, 
-	unsigned int Y_Res, 
 	unsigned int Z_Res
 )
 {
-	unsigned int Fx = X + X_Res;
-	unsigned int Fy = Y + Y_Res;
-	unsigned int Fz = Z + Z_Res;
+	int Fx = Cx + X_Res;
+	int Fz = Cz + Z_Res;
 
-	for (unsigned int Cx = X; Cx < Fx; Cx++)
+	// For each vertical strip of land, start with a lighting value of 15. Go downwards, if the 
+	// block is air, stay at light level 15. If not, set everything below it to 0.
+
+	std::vector<std::tuple<unsigned int, unsigned int, unsigned int>> Light_Queue;
+
+	for (float X = Cx; X < Fx; X++)
 	{
-		for (unsigned int Cz = Z; Cz < Fz; Cz++)
+		for (float Z = Cz; Z < Fz; Z++)
 		{
-			unsigned int Skylight;
+			unsigned char Skylight = 15;
 
-			if (Y == 0)
+			for (float Y = 0; Y < Out->Y_Res; Y++)
 			{
-				// Top of the world, where the sky is brightest.
+				Block_ID Block_Type = Voxel_Type(Out->Get(int(X), int(Y), int(Z)));
 
-				Skylight = 15;
-			}
-			else
-			{
-				Skylight = Voxel_Skylight(Input->Get(Cx, Y - 1, Cz));
-			}
-
-			for (unsigned int Cy = Y; Cy < Fy; Cy++)
-			{
-				Block_ID Block_Type = Voxel_Type(Input->Get(Cx, Cy, Cz));
-
-				Input->Set(Cx, Cy, Cz, Make_Voxel(Block_Type, Skylight, 0));
+				Out->Set(int(X), int(Y), int(Z), Make_Voxel(Block_Type, Skylight, 0));
 
 				if (Block_Type != id_air)
 				{
-					if (Skylight != 0)
+					Skylight = 0;
+				}
+			}
+		}
+	}
+
+	// All blocks that are of light level 0 that have one or more neighbors that have a light
+	// level of 15 are added to the queue.
+
+	for (int X = Cx - 1; X < Fx + 1; X++)
+	{
+		for (int Y = 0; Y < Out->Y_Res; Y++)
+		{
+			for (int Z = Cz - 1; Z < Fz + 1; Z++)
+			{
+				if (Voxel_Skylight(Out->Get_Safe(X, Y, Z)) == 0)
+				{
+					if 
+					(
+						Voxel_Skylight(Out->Get_Safe(X + 1, Y, Z)) == 15 ||
+						Voxel_Skylight(Out->Get_Safe(X - 1, Y, Z)) == 15 ||
+
+						Voxel_Skylight(Out->Get_Safe(X, Y + 1, Z)) == 15 ||
+						Voxel_Skylight(Out->Get_Safe(X, Y - 1, Z)) == 15 ||
+
+						Voxel_Skylight(Out->Get_Safe(X, Y, Z + 1)) == 15 ||
+						Voxel_Skylight(Out->Get_Safe(X, Y, Z - 1)) == 15
+					)
 					{
-						Skylight -= 1;
+						Out->Set(X, Y, Z, Make_Voxel(Voxel_Type(Out->Get(X, Y, Z)), 14, Voxel_Light(Out->Get(X, Y, Z))));
+
+						Light_Queue.push_back(std::tuple<unsigned int, unsigned int, unsigned int>(X, Y, Z));
 					}
 				}
 			}
+		}
+	}
+
+	// Pop the top off of the queue. We'll call this the 'current block'. Check it's six 
+	// neighbors, if any of them have a light value less than the current block's light value
+	// minus one, set that neighbors light value to the current block's light value minus one, and
+	// add that neighbor to the queue. Keep doing this until the queue is empty.  
+
+	while (Light_Queue.size() > 0)
+	{
+		int X = std::get<0>(Light_Queue[Light_Queue.size() - 1]);
+		int Y = std::get<1>(Light_Queue[Light_Queue.size() - 1]);
+		int Z = std::get<2>(Light_Queue[Light_Queue.size() - 1]);
+
+		Light_Queue.pop_back();
+
+		unsigned char Current_Value = Voxel_Skylight(Out->Get(X, Y, Z));
+
+		// Right neighbor.
+
+		if (!Out->Out_Of_Bounds(X + 1, Y, Z) && Voxel_Skylight(Out->Get(X + 1, Y, Z)) < Current_Value - 1)
+		{
+			Out->Set(X + 1, Y, Z, Make_Voxel(Voxel_Type(Out->Get(X + 1, Y, Z)), Current_Value - 1, Voxel_Light(Out->Get(X + 1, Y, Z))));
+
+			Light_Queue.push_back(std::tuple<unsigned int, unsigned int, unsigned int>(X + 1, Y, Z));
+		}
+
+		// Left neighbor.
+
+		if (!Out->Out_Of_Bounds(X - 1, Y, Z) && Voxel_Skylight(Out->Get(X - 1, Y, Z)) < Current_Value - 1)
+		{
+			Out->Set(X - 1, Y, Z, Make_Voxel(Voxel_Type(Out->Get(X - 1, Y, Z)), Current_Value - 1, Voxel_Light(Out->Get(X - 1, Y, Z))));
+
+			Light_Queue.push_back(std::tuple<unsigned int, unsigned int, unsigned int>(X - 1, Y, Z));
+		}
+
+		// Bottom neighbor.
+
+		if (!Out->Out_Of_Bounds(X, Y + 1, Z) && Voxel_Skylight(Out->Get(X, Y + 1, Z)) < Current_Value - 1)
+		{
+			Out->Set(X, Y + 1, Z, Make_Voxel(Voxel_Type(Out->Get(X, Y + 1, Z)), Current_Value - 1, Voxel_Light(Out->Get(X, Y + 1, Z))));
+
+			Light_Queue.push_back(std::tuple<unsigned int, unsigned int, unsigned int>(X, Y + 1, Z));
+		}
+
+		// Top neighbor.
+
+		if (!Out->Out_Of_Bounds(X, Y - 1, Z) && Voxel_Skylight(Out->Get(X, Y - 1, Z)) < Current_Value - 1)
+		{
+			Out->Set(X, Y - 1, Z, Make_Voxel(Voxel_Type(Out->Get(X, Y - 1, Z)), Current_Value - 1, Voxel_Light(Out->Get(X, Y - 1, Z))));
+
+			Light_Queue.push_back(std::tuple<unsigned int, unsigned int, unsigned int>(X, Y - 1, Z));
+		}
+
+		// Front neighbor.
+
+		if (!Out->Out_Of_Bounds(X, Y, Z + 1) && Voxel_Skylight(Out->Get(X, Y, Z + 1)) < Current_Value - 1)
+		{
+			Out->Set(X, Y, Z + 1, Make_Voxel(Voxel_Type(Out->Get(X, Y, Z + 1)), Current_Value - 1, Voxel_Light(Out->Get(X, Y, Z + 1))));
+
+			Light_Queue.push_back(std::tuple<unsigned int, unsigned int, unsigned int>(X, Y, Z + 1));
+		}
+
+		// Back neighbor.
+
+		if (!Out->Out_Of_Bounds(X, Y, Z - 1) && Voxel_Skylight(Out->Get(X, Y, Z - 1)) < Current_Value - 1)
+		{
+			Out->Set(X, Y, Z - 1, Make_Voxel(Voxel_Type(Out->Get(X, Y, Z - 1)), Current_Value - 1, Voxel_Light(Out->Get(X, Y, Z - 1))));
+
+			Light_Queue.push_back(std::tuple<unsigned int, unsigned int, unsigned int>(X, Y, Z - 1));
 		}
 	}
 }
