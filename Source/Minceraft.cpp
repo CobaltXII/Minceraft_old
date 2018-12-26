@@ -222,7 +222,7 @@ int main(int argc, char** argv)
 
 	// Generate a fresh world.
 
-	int World_Size = Id_Tiny_World;
+	int World_Size = Id_Medium_World;
 
 	World* The_World = Allocate_Empty_World(World_X_Res_List[World_Size], World_Y_Res_List[World_Size], World_Z_Res_List[World_Size]);
 
@@ -512,9 +512,7 @@ int main(int argc, char** argv)
 		glClearColor(186.0f / 255.0f, 214.0f / 255.0f, 254.0f / 255.0f, 1.0f);
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 		
-
 		// The following code handles world rendering.
 
 		{
@@ -687,7 +685,7 @@ int main(int argc, char** argv)
 
 		// The following code handles crosshair rendering.
 
-		if (true)
+		if (false)
 		{
 			// Enable alpha blending.
 
