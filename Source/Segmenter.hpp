@@ -86,6 +86,13 @@ struct Segmenter
 				}
 			}
 		}
+
+		if ((Voxel_Type(Value) == id_air) != (Voxel_Type(Old_Value) == id_air))
+ 		{
+ 			// Update lighting.
+
+ 			Propagate_Skylight(The_World, X, Z);
+ 		}
 	}
 
 	// Same as above, but sets the light values of the block being set to the light values of the
