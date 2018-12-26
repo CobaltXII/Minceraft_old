@@ -616,15 +616,24 @@ int main(int argc, char** argv)
 
 						if (The_Chunk->Modified)
 						{
+							// Annihilate the chunk.
+
 							The_Chunk->Destroy();
+
+							// Update the chunk. This will not do anything about lighting, but this
+							// will invoke things like falling sand or water flooding.
 
 							Update_Subset(The_Segmenter, The_Chunk->X, The_Chunk->Y, The_Chunk->Z, The_Chunk->X_Res, The_Chunk->Y_Res, The_Chunk->Z_Res);
 
-							Propagate_Skylight(The_World, The_Chunk->X, The_Chunk->Z, The_Chunk->X_Res, The_Chunk->Z_Res);
+							// Make a new chunk.
 
 							Chunk* New_Chunk = Make_Chunk(The_World, The_Chunk->X, The_Chunk->Y, The_Chunk->Z, The_Chunk->X_Res, The_Chunk->Y_Res, The_Chunk->Z_Res);
 
+							// Remove the old chunk from memory.
+
 							free(The_Chunk);
+
+							// Replace the old chunk with the new chunk.
 
 							The_Chunk = New_Chunk;
 
