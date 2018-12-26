@@ -36,6 +36,10 @@ Raymarch_Data Raymarch(World* The_World, float Ox, float Oy, float Oz, float Loo
 	float Iy = -tan(Radians(Look_X));
 	float Iz = -cos(Radians(Look_Y));
 
+	float Total_Distance = 0.0f;
+
+	unsigned int Total_Steps = 0;
+
 	while (true)
 	{
 		// Check for collisions.
@@ -92,13 +96,23 @@ Raymarch_Data Raymarch(World* The_World, float Ox, float Oy, float Oz, float Loo
 
 		// Increment ray position.
 
-		float Distance = 0.05;
+		float Distance = 0.01f;
+
+		float X_n = std::floor(Px);
+		float Y_n = std::floor(Py);
+		float Z_n = std::floor(Pz);
+
+		float X_p = std::ceil(Px);
+		float Y_p = std::ceil(Py);
+		float Z_p = std::ceil(Pz);
 
 		Px += Ix * Distance;
 		Py += Iy * Distance;
 		Pz += Iz * Distance;
 
-		if ((Px + Ox) * (Px + Ox) + (Py + Oy) * (Py + Oy) + (Pz + Oz) * (Pz + Oz) > Breakout * Breakout)
+		Total_Steps++;
+
+		if (Total_Distance > Breakout || Total_Steps > Breakout * 128)
 		{
 			Out.Hit = false;
 
